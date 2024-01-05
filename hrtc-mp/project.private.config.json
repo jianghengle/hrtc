@@ -1,0 +1,7 @@
+{
+  "projectname": "hrtc-mp",
+  "setting": {
+    "compileHotReLoad": true,
+    "urlCheck": false
+  }
+}
