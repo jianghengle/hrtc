@@ -1,0 +1,9 @@
+<!--components/tabbar/tabbar.wxml-->
+<view class="cu-bar tabbar bg-white shadow foot">
+  <view wx:for="{{list}}" wx:key="index" class="action" data-path="{{item.pagePath}}" data-index="{{index}}" bindtap="switchTab">
+    <view class='cuIcon-cu-image'>
+      <image src="{{selected==index ? item.selectedIconPath : item.iconPath}}"></image>
+    </view>
+    <view class="{{selected==index ? 'text-green' : 'text-gray'}}">{{item.text}}</view>
+  </view>
+</view>

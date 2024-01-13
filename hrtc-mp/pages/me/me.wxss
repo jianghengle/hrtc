@@ -1,0 +1,17 @@
+/* pages/me/me.wxss */
+.avatar-wrapper {
+  padding: 0;
+  width: 56px !important;
+  border-radius: 8px;
+  margin-top: 40px;
+}
+
+.avatar {
+  display: block;
+  width: 56px;
+  height: 56px;
+}
+
+.nickname-input {
+  text-align: center;
+}

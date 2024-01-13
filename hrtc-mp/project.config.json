@@ -15,11 +15,13 @@
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
-    }
+    },
+    "ignoreUploadUnusedFiles": false,
+    "ignoreDevUnusedFiles": false
   },
   "compileType": "miniprogram",
   "libVersion": "2.27.3",
-  "appid": "wx7d203492eb54d962",
+  "appid": "wx474066a3613b5a3c",
   "projectname": "hrtc",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},

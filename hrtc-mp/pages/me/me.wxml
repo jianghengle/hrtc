@@ -1,0 +1,22 @@
+<!--pages/me/me.wxml-->
+<cu-custom bgColor="bg-gradual-blue">
+  <view slot="content">华人同城</view>
+</cu-custom>
+
+<tabbar selected="1"></tabbar>
+
+<view wx:if="{{userId}}" class="margin-xl padding-xl bg-white radius shadow shadow-lg">
+
+  <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+    <image class="avatar" src="{{avatarUrl}}"></image>
+  </button> 
+
+  <view class="cu-form-group">
+		<input class="nickname-input" type="nickname" placeholder="请输入昵称" model:value="{{nickname}}"></input>
+	</view>
+
+  <view class="padding flex flex-direction">
+    <button class="cu-btn block bg-blue margin-tb-sm lg" bindtap="submit">提交</button>
+  </view>
+
+</view>
