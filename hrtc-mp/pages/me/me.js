@@ -43,29 +43,9 @@ Page({
         userId: app.globalData.user.id,
         nickname: nickname == defaultNickname ? '' : nickname,
         avatar: app.globalData.user.avatar,
-        avatarUrl: app.globalData.user.avatar.url,
+        avatarUrl: app.globalData.user.avatarUrl,
       })
-      if (app.globalData.user.avatar.source == 's3') {
-        downloadFile(app.globalData.user.avatar.key, app).then(res => {
-          that.setData({
-            avatarUrl: res
-          })
-        })
-      }
     })
-  },
-
-  getAvatarUrl(avatar) {
-    if (avatar.source == 'url') {
-      return avatar.url
-    }
-    if (avatar.source == 's3') {
-      var that = this
-      downloadFile(avatar.key, app).then(res => {
-        
-      })
-    }
-    return ''
   },
 
   submit() {
@@ -105,6 +85,7 @@ Page({
     wx.showLoading({
       title: '更新中',
     })
+    var that = this
     httpPost('/user/update', data, app).then(resp => {
       wx.hideLoading()
       wx.showToast({
@@ -112,6 +93,8 @@ Page({
         icon: 'success',
         duration: 2000
       })
+      app.globalData.user.nickname = data.nickname
+      app.globalData.user.avatarUrl = that.data.avatarUrl
     }).catch(err => {
       wx.hideLoading()
       wx.showToast({

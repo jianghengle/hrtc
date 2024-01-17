@@ -1,0 +1,15 @@
+/* pages/event/event.wxss */
+.event-container {
+  padding-bottom: 80px;
+}
+
+.event-tag {
+  margin-right: 5px;
+  font-weight: normal;
+}
+
+.event-image {
+  width: 100%;
+  height: 260px;
+  margin-top: 10px;
+}

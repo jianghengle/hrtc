@@ -5,11 +5,12 @@ import time
 import uuid
 from .model import Model
 from ..services import dynamo_service
+from ..services import s3_service
 from .. import MyError
 
 DEFAULT_NICKNAME = '微信用户'
 DEFAULT_AVATAR_URL = 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132'
-
+S3_BUCKET = 'hrtc-s3-bucket'
 
 class UserModel(Model):
     TableName = 'HrtcUsers'
@@ -18,10 +19,14 @@ class UserModel(Model):
     Fields = ['id', 'openid', 'nickname', 'avatar', 'token', 'createdAt', 'updatedAt', 'lastLoginAt']
 
     def get_info_data(self):
+        avatarUrl = self.avatar.get('url', '')
+        if self.avatar['source'] == 's3':
+            avatarUrl = s3_service.create_presigned_url(S3_BUCKET, self.avatar['key'])
         return {
             'id': self.id,
             'nickname': self.nickname,
             'avatar': self.avatar,
+            'avatarUrl': avatarUrl,
             'nicknameNotSet': self.nickname == DEFAULT_NICKNAME 
         }
     
@@ -77,3 +82,11 @@ class UserModel(Model):
         dynamo_service.create_item(table, data, 'id')
         item = dynamo_service.get_item(table, 'id', id)
         return UserModel(item)
+
+    @staticmethod
+    def get_by_id(id):
+        table = dynamo_service.get_table(UserModel.TableName)
+        item = dynamo_service.get_item(table, 'id', id)
+        if item:
+            return UserModel(item)
+        return None

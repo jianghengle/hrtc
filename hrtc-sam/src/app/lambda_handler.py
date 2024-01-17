@@ -2,6 +2,7 @@ from . import MyError
 from .my_http import MyReq, MyResp
 from .controllers import user_controller
 from .controllers import s3_controller
+from .controllers import event_controller
 
 
 class MyRouter:
@@ -54,8 +55,11 @@ def handle(event, context):
             ('GET', '/ping', False, user_controller.ping),
             ('POST', '/user/wx-login', False, user_controller.wx_login),
             ('POST', '/user/update', True, user_controller.update),
+            ('GET', '/user/get-user-info/:id', True, user_controller.get_user_info),
             ('POST', '/s3/get-s3-upload-url', True, s3_controller.get_s3_upload_url),
             ('POST', '/s3/get-s3-download-url', True, s3_controller.get_s3_download_url),
+            ('GET', '/event/get-all-events', True, event_controller.get_all_events),
+            ('GET', '/event/get-event/:id', True, event_controller.get_event),
         ])
         return router.route(req)
     except MyError as err:

@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/me/me"
+    "pages/me/me",
+    "pages/event/event"
   ],
   "window": {
     "backgroundTextStyle": "light",

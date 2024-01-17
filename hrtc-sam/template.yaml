@@ -53,6 +53,42 @@ Resources:
               KeyType: "HASH"
           Projection:
             ProjectionType: "ALL"
+  HrtcEventsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "HrtcEvents"
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        -
+          AttributeName: "id"
+          AttributeType: "S"
+        -
+          AttributeName: "ownerId"
+          AttributeType: "S"
+        -
+          AttributeName: "locationStatusKey"
+          AttributeType: "S"
+      KeySchema:
+        -
+          AttributeName: "id"
+          KeyType: "HASH"
+      GlobalSecondaryIndexes:
+        -
+          IndexName: "ownerIdGSI"
+          KeySchema:
+            -
+              AttributeName: "ownerId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+        -
+          IndexName: "locationStatusKeyGSI"
+          KeySchema:
+            -
+              AttributeName: "locationStatusKey"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
 
   MyAppFunctionRole:
     Type: AWS::IAM::Role
@@ -93,6 +129,8 @@ Resources:
             Resource:
               - !GetAtt HrtcUsersTable.Arn
               - !Join [ '/',[!GetAtt HrtcUsersTable.Arn, index/*]]
+              - !GetAtt HrtcEventsTable.Arn
+              - !Join [ '/',[!GetAtt HrtcEventsTable.Arn, index/*]]
           Version: '2012-10-17'
         PolicyName: 'MyAppFunctionRolePolicy'
 

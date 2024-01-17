@@ -43,5 +43,11 @@ App({
   },
   globalData: {
     user: null,
+    currentEventId: null,
+    tagMap: {
+      'groupBuy': {color: 'blue', text: '团购'},
+      'chef': {color: 'red', text: '私厨'},
+      'other': {color: 'green', text: '其他'},
+    },
   }
 })

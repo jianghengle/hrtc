@@ -1,3 +1,5 @@
+const server = 'https://bzb752uzy5.execute-api.us-west-2.amazonaws.com/Prod'
+
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -14,6 +16,14 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+const formatDate = timestamp => {
+  var date = new Date(timestamp)
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  return year + '年' + month + '月' + day + '日'
+}
+
 const waitForUser = (app, callback) => {
   wx.showLoading({
     title: '加载中',
@@ -27,8 +37,6 @@ const waitForUser = (app, callback) => {
     }, 1000)
   }
 }
-
-const server = 'http://127.0.0.1:3000'
 
 const httpGet = (path, app) => {
   return new Promise((resolve, reject) => {
@@ -126,6 +134,7 @@ const downloadFile = (key, app) => {
 
 module.exports = {
   formatTime: formatTime,
+  formatDate: formatDate,
   waitForUser: waitForUser,
   httpGet: httpGet,
   httpPost: httpPost,

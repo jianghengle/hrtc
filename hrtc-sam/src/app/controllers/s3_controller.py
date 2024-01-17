@@ -14,7 +14,7 @@ def get_s3_upload_url(req):
 def get_s3_download_url(req):
     key = req.body['key']
     url = create_presigned_url(S3_BUCKET, key)
-    return {'url': url}
+    return {'url': url, 'key': key}
 
 def get_random_string(n):
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=n))

@@ -1,0 +1,40 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="true">
+  <view slot="content">{{event ? event.title : '华人同城'}}</view>
+</cu-custom>
+
+<view class="cu-card dynamic no-card event-container" wx:if="event">
+  <view class="cu-item shadow">
+    <view class="cu-list menu-avatar">
+      <view class="cu-item">
+        <view class="cu-avatar round lg" style="{{'background-image:url(' + event.owner.avatarUrl + ');'}}"></view>
+        <view class="content flex-sub">
+          <view>{{event.owner.nickname}}</view>
+          <view class="text-gray text-sm flex justify-between">
+            {{event.pubDate}}
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="text-content">
+      <view class="text-bold">
+        <view class="{{'cu-tag radius event-tag bg-' + event.tag.color}}">{{event.tag.text}}</view>
+        <block class="text-bold">{{event.title}}</block>
+      </view>
+      <view>{{event.description}}</view>
+    </view>
+
+    <view class="padding" wx:for="{{event.items}}" wx:key="index">
+      <view wx:if="{{item.title}}" class="text-bold">{{item.title}}</view>
+      <view wx:if="{{item.text}}">{{item.text}}</view>
+      <view wx:for="{{item.images}}" wx:key="index">
+        <image class="event-image" src="{{imageMap[item.key]}}" mode="widthFix" />
+      </view>
+    </view>
+
+    <view class="text-gray text-sm text-right padding">
+      <text class="cuIcon-attentionfill margin-lr-xs"></text> {{event.viewCount}}
+    </view>
+
+
+  </view>
+</view>

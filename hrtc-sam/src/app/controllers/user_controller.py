@@ -34,3 +34,7 @@ def update(req):
     user = req.user
     user = user.update_user(req.body)
     return user.get_info_data()
+
+def get_user_info(req, id):
+    user = UserModel.get_by_id(id)
+    return user.get_info_data()
