@@ -15,9 +15,21 @@ Component({
     list: [
       {
         pagePath: "/pages/index/index",
+        iconPath: "/images/tabbar/plugin.png",
+        selectedIconPath: "/images/tabbar/plugin_cur.png",
+        text: "团购"
+      },
+      {
+        pagePath: "/pages/chefs/chefs",
         iconPath: "/images/tabbar/basics.png",
         selectedIconPath: "/images/tabbar/basics_cur.png",
-        text: "附近"
+        text: "私厨"
+      },
+      {
+        pagePath: "/pages/threads/threads",
+        iconPath: "/images/tabbar/component.png",
+        selectedIconPath: "/images/tabbar/component_cur.png",
+        text: "对话"
       },
       {
         pagePath: "/pages/me/me",

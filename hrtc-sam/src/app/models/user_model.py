@@ -7,16 +7,21 @@ from .model import Model
 from ..services import dynamo_service
 from ..services import s3_service
 from .. import MyError
+from decimal import Decimal
 
 DEFAULT_NICKNAME = '微信用户'
 DEFAULT_AVATAR_URL = 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132'
+DEFAULT_LOCATION = {
+    "latitude": Decimal(str('43.651070')),
+    "longitude": Decimal(str(-79.347015))
+}
 S3_BUCKET = 'hrtc-s3-bucket'
 
 class UserModel(Model):
     TableName = 'HrtcUsers'
     TokenGSI = ('tokenGSI', 'token')
     OpenidGSI = ('openidGSI', 'openid')
-    Fields = ['id', 'openid', 'nickname', 'avatar', 'token', 'createdAt', 'updatedAt', 'lastLoginAt']
+    Fields = ['id', 'openid', 'nickname', 'avatar', 'location', 'token', 'createdAt', 'updatedAt', 'lastLoginAt']
 
     def get_info_data(self):
         avatarUrl = self.avatar.get('url', '')
@@ -27,6 +32,7 @@ class UserModel(Model):
             'nickname': self.nickname,
             'avatar': self.avatar,
             'avatarUrl': avatarUrl,
+            'location': self.location,
             'nicknameNotSet': self.nickname == DEFAULT_NICKNAME 
         }
     
@@ -74,6 +80,7 @@ class UserModel(Model):
                 'source': 'url',
                 'url': DEFAULT_AVATAR_URL,
             },
+            'location': DEFAULT_LOCATION,
             'token': token,
             'createdAt': timestamp,
             'updatedAt': timestamp,

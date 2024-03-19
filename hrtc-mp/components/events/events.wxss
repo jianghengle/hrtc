@@ -1,0 +1,22 @@
+/* components/events/events.wxss */
+@import "../../colorui/main.wxss";
+@import "../../colorui/icon.wxss";
+
+.add-post-button {
+  padding-top: 10px;
+  padding-left: 15px;
+}
+
+.add-icon {
+  margin-right: 10px;
+}
+
+.events-container {
+  padding-bottom: 80px;
+}
+
+.edit-icon {
+  float: right;
+  padding: 10px;
+}
+

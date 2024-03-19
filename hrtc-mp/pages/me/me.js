@@ -1,5 +1,5 @@
 // pages/me/me.js
-import { waitForUser, httpPost, uploadFile, downloadFile } from '../../utils/util' 
+import { waitForUser, httpGet, httpPost, uploadFile, formatDate } from '../../utils/util' 
 
 const app = getApp()
 const defaultNickname = '微信用户'
@@ -15,6 +15,8 @@ Page({
     avatar: null,
     avatarUrl: null,
     avatarChanged: false,
+    location: {},
+    events: null,
   },
 
   onChooseAvatar(e) {
@@ -34,7 +36,7 @@ Page({
       const nickname = app.globalData.user.nickname
       if (nickname == defaultNickname) {
         wx.showToast({
-          title: '请输入昵称',
+          title: '请完善资料',
           icon: 'error',
           duration: 2000
         })
@@ -44,8 +46,54 @@ Page({
         nickname: nickname == defaultNickname ? '' : nickname,
         avatar: app.globalData.user.avatar,
         avatarUrl: app.globalData.user.avatarUrl,
+        location: app.globalData.user.location,
       })
+      if (nickname == defaultNickname) {
+        that.checkAndGetLocation()
+      }
+      that.getEvents()
     })
+  },
+
+  checkAndGetLocation() {
+    var that = this
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.userFuzzyLocation']) {
+          wx.authorize({
+            scope: 'scope.userFuzzyLocation',
+            success () {
+              that.getFuzzyLocation()
+            }
+          })
+        } else {
+          that.getFuzzyLocation()
+        }
+      }
+    })
+  },
+
+  getFuzzyLocation() {
+    var that = this
+    wx.getFuzzyLocation({
+      type: 'wgs84',
+      success (res) {
+        that.setData({
+          location: {
+            latitude: res.latitude,
+            longitude: res.longitude
+          }
+        })
+      }
+    })
+  },
+
+  mapCenterChanged (event) {
+    console.log('mapCenterChanged', event)
+    if (event.causedBy == 'drag' && event.type == 'end') {
+      var center = event.detail.centerLocation
+      this.setData({location: center})
+    }
   },
 
   submit() {
@@ -57,7 +105,8 @@ Page({
       })
     }
     const data = {
-      nickname: this.data.nickname
+      nickname: this.data.nickname,
+      location: this.data.location,
     }
     if (!this.data.avatarChanged) {
       this.update(data)
@@ -95,6 +144,8 @@ Page({
       })
       app.globalData.user.nickname = data.nickname
       app.globalData.user.avatarUrl = that.data.avatarUrl
+      app.globalData.user.location = that.data.location
+      app.globalData.user.nicknameNotSet = false
     }).catch(err => {
       wx.hideLoading()
       wx.showToast({
@@ -102,6 +153,12 @@ Page({
         icon: 'error',
         duration: 2000
       })
+    })
+  },
+
+  openPosts () {
+    wx.navigateTo({
+      url: '/pages/posts/posts',
     })
   },
 

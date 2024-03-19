@@ -1,0 +1,31 @@
+<!--components/images/images.wxml-->
+<view wx:if="{{images}}">
+  <view wx:if="{{!editable}}">
+    <view wx:for="{{images}}" wx:for-index="idx" wx:key="index" class="img-container">
+      <image src="{{imageMap[item.key]}}" data-src="{{imageMap[item.key]}}" bindtap="previewImage"
+        class="radius" style="width:100%" mode="widthFix" show-menu-by-longpress="{{!editable}}">
+      </image>
+    </view>
+  </view>
+
+  <view wx:else>
+    <view class="cu-bar bg-white editable-imgs">
+      <view class="action">
+        图片上传
+      </view>
+    </view>
+    <view class="cu-form-group">
+      <view class="grid col-4 grid-square flex-sub">
+        <view class="bg-img" wx:for="{{images}}" wx:key="index" data-url="{{imageMap[item.key]}}">
+          <image src='{{imageMap[item.key]}}' mode='aspectFit'></image>
+          <view class="cu-tag bg-red" bindtap="deleteImage" data-index="{{index}}">
+            <text class="cuIcon-close"></text>
+          </view>
+        </view>
+        <view class="solids" bindtap="chooseImage">
+          <text class="cuIcon-cameraadd"></text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

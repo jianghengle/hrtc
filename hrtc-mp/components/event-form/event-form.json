@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "item-form": "../item-form/item-form",
+    "mp-actionSheet": "weui-miniprogram/actionsheet/actionsheet"
+  }
+}

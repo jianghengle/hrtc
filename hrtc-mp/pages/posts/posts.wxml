@@ -1,0 +1,37 @@
+<!--pages/posts/posts.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="true">
+  <view slot="content">我的发布</view>
+</cu-custom>
+
+<view class="padding" wx:if="{{events && !events.length}}">
+  <view class="padding bg-grey radius">您还没有发布过任何信息！</view>
+</view>
+
+<view wx:if="{{events && events.length}}" class="events-container">
+  <view wx:for="{{events}}" data-event-id="{{item.id}}" bind:tap="openEvent" wx:key="index" class="cu-card article event">
+    <view class="cu-item bg-white radius shadow shadow-lg">
+      <view class="title">
+        <view class="text-cut">
+          <text class="{{item.status == 'open' ? 'text-black' : 'text-grey'}}">{{item.title}}</text>
+          <view class="edit-icon">
+            <text class="cuIcon-edit bg-blue lg" data-event-id="{{item.id}}" bind:tap="editEvent"></text>
+          </view>
+        </view>
+      </view>
+      <view class="content">
+        <view class="desc">
+          <view class="text-content">
+            <view class="text-cut">{{item.description}}</view>
+            <view class="update-date">更新日期：{{item.updateDate}}</view>
+          </view>
+          <view>
+            <view class="text-gray text-sm text-right view-count">
+              <text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.viewCount}}
+            </view>
+            <view class="{{'cu-tag radius event-tag bg-' + item.tag.color}}">{{item.tag.text}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

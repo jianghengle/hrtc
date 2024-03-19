@@ -3,9 +3,9 @@
   <view slot="content">华人同城</view>
 </cu-custom>
 
-<tabbar selected="1"></tabbar>
+<tabbar selected="3"></tabbar>
 
-<view wx:if="{{userId}}" class="margin-xl padding-xl bg-white radius shadow shadow-lg">
+<view wx:if="{{userId}}" class="margin padding-xl bg-white radius shadow shadow-lg">
 
   <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
     <image class="avatar" src="{{avatarUrl}}"></image>
@@ -15,8 +15,25 @@
 		<input class="nickname-input" type="nickname" placeholder="请输入昵称" model:value="{{nickname}}"></input>
 	</view>
 
+  <view class="map-container">
+    <map class="map" bindregionchange="mapCenterChanged"
+      latitude="{{location.latitude}}"
+      longitude="{{location.longitude}}"
+      scale="10">
+    </map>
+  </view>
+
   <view class="padding flex flex-direction">
     <button class="cu-btn block bg-blue margin-tb-sm lg" bindtap="submit">提交</button>
   </view>
 
+</view>
+
+<view class="cu-list menu sm-border card-menu margin-top bg-white radius shadow shadow-lg">
+  <view class="cu-item arrow" bindtap="openPosts">
+    <view class="content">
+      <text class="cuIcon-post text-black"></text>
+      <text class="text-black">我的发布</text>
+    </view>
+  </view>
 </view>

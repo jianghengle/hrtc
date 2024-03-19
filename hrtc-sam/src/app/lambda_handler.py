@@ -3,6 +3,7 @@ from .my_http import MyReq, MyResp
 from .controllers import user_controller
 from .controllers import s3_controller
 from .controllers import event_controller
+from .controllers import thread_controller
 
 
 class MyRouter:
@@ -60,6 +61,16 @@ def handle(event, context):
             ('POST', '/s3/get-s3-download-url', True, s3_controller.get_s3_download_url),
             ('GET', '/event/get-all-events', True, event_controller.get_all_events),
             ('GET', '/event/get-event/:id', True, event_controller.get_event),
+            ('GET', '/event/get-event-timestamp/:id', True, event_controller.get_event_timestamp),
+            ('GET', '/event/get_events_by_location_status/:key', True, event_controller.get_events_by_location_status_key),
+            ('GET', '/event/get_owned_events', True, event_controller.get_owned_events),
+            ('POST', '/event/create-event', True, event_controller.create_event),
+            ('POST', '/event/update-event', True, event_controller.update_event),
+            ('GET', '/thread/get-event-threads/:event_id', True, thread_controller.get_event_threads),
+            ('POST', '/thread/submit-chat', True, thread_controller.submit_chat),
+            ('GET', '/thread/get-thread/:id', True, thread_controller.get_thread),
+            ('POST', '/thread/get-new-chats', True, thread_controller.get_new_chats),
+            ('GET', '/thread/get-threads', True, thread_controller.get_threads),
         ])
         return router.route(req)
     except MyError as err:

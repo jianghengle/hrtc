@@ -1,8 +1,1 @@
-.events-container {
-  padding-bottom: 80px;
-}
 
-.event-tag {
-  margin-right: 5px;
-  font-weight: normal;
-}

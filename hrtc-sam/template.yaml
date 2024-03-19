@@ -89,6 +89,53 @@ Resources:
               KeyType: "HASH"
           Projection:
             ProjectionType: "ALL"
+  HrtcThreadsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "HrtcThreads"
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        -
+          AttributeName: "id"
+          AttributeType: "S"
+        -
+          AttributeName: "eventId"
+          AttributeType: "S"
+        -
+          AttributeName: "eventOwnerId"
+          AttributeType: "S"
+        -
+          AttributeName: "userId"
+          AttributeType: "S"
+      KeySchema:
+        -
+          AttributeName: "id"
+          KeyType: "HASH"
+      GlobalSecondaryIndexes:
+        -
+          IndexName: "eventIdGSI"
+          KeySchema:
+            -
+              AttributeName: "eventId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+        -
+          IndexName: "eventOwnerIdGSI"
+          KeySchema:
+            -
+              AttributeName: "eventOwnerId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+        -
+          IndexName: "userIdGSI"
+          KeySchema:
+            -
+              AttributeName: "userId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
 
   MyAppFunctionRole:
     Type: AWS::IAM::Role
@@ -131,6 +178,8 @@ Resources:
               - !Join [ '/',[!GetAtt HrtcUsersTable.Arn, index/*]]
               - !GetAtt HrtcEventsTable.Arn
               - !Join [ '/',[!GetAtt HrtcEventsTable.Arn, index/*]]
+              - !GetAtt HrtcThreadsTable.Arn
+              - !Join [ '/',[!GetAtt HrtcThreadsTable.Arn, index/*]]
           Version: '2012-10-17'
         PolicyName: 'MyAppFunctionRolePolicy'
 

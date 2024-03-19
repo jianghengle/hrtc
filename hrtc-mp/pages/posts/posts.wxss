@@ -1,0 +1,26 @@
+/* pages/posts/posts.wxss */
+.add-post-button {
+  padding-top: 10px;
+  padding-left: 15px;
+}
+
+.add-icon {
+  margin-right: 10px;
+}
+
+.edit-icon {
+  float: right;
+}
+
+.events-container {
+  padding-bottom: 40px;
+}
+.update-date {
+  margin-top: 10px;
+}
+
+.view-count {
+  float: right;
+  padding-top: 5px;
+}
+

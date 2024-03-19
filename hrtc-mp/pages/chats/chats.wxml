@@ -1,0 +1,8 @@
+<!--pages/chats/chats.wxml-->
+<cu-custom bgColor="bg-gradual-blue">
+  <view slot="content">对话</view>
+</cu-custom>
+
+<tabbar selected="2"></tabbar>
+
+<view>Chats</view>

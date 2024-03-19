@@ -1,0 +1,12 @@
+/* components/images/images.wxss */
+@import "../../colorui/main.wxss";
+@import "../../colorui/icon.wxss";
+
+.img-container {
+  text-align: center;
+  margin-top: 5px;
+}
+
+.editable-imgs {
+  margin-top: 1px;
+}

@@ -1,0 +1,17 @@
+<!--pages/chefs/chefs.wxml-->
+<cu-custom bgColor="bg-gradual-blue">
+  <view slot="content">私厨</view>
+</cu-custom>
+
+<tabbar selected="1"></tabbar>
+
+<view class="padding" wx:if="{{user && user.nicknameNotSet}}">
+  <view class="padding bg-grey radius">
+    <text class="cuIcon-warn lg"></text>
+    请完善个人资料以使用所有功能
+  </view>
+</view>
+
+<view v-if="{{eventType}}">
+  <events user="{{user}}" eventType="{{eventType}}"></events>
+</view>

@@ -1,0 +1,7 @@
+/* components/item-form/item-form.wxss */
+@import "../../colorui/main.wxss";
+@import "../../colorui/icon.wxss";
+
+.menu-icon {
+  float: right;
+}

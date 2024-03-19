@@ -1,44 +1,16 @@
 <cu-custom bgColor="bg-gradual-blue">
-  <view slot="content">华人同城</view>
+  <view slot="content">团购</view>
 </cu-custom>
 
 <tabbar selected="0"></tabbar>
 
-<view class="padding" wx:if="{{events && !events.length}}">
-  <view class="padding bg-grey radius">抱歉，附近没有找到任何发布的信息！</view>
+<view class="padding" wx:if="{{user && user.nicknameNotSet}}">
+  <view class="padding bg-grey radius">
+    <text class="cuIcon-warn lg"></text>
+    请完善个人资料以使用所有功能
+  </view>
 </view>
 
-<view class="events-container" wx:if="{{events && events.length}}">
-  <view wx:for="{{events}}" wx:key="index" class="cu-card dynamic">
-    <view class="cu-item shadow" data-event-id="{{item.id}}" bind:tap="openEvent">
-      <view class="cu-list menu-avatar">
-        <view class="cu-item">
-          <view class="cu-avatar round lg" style="{{'background-image:url(' + (userMap[item.ownerId] && userMap[item.ownerId].avatarUrl) + ')'}}"></view>
-          <view class="content flex-sub">
-            <view>{{userMap[item.ownerId] && userMap[item.ownerId].nickname}}</view>
-            <view class="text-gray text-sm flex justify-between">
-              {{item.pubDate}}
-            </view>
-          </view>
-        </view>
-      </view>
-      <view class="text-content">
-        <view class="text-bold">
-          <view class="{{'cu-tag radius event-tag bg-' + item.tag.color}}">{{item.tag.text}}</view>
-          <block>{{item.title}}</block>
-        </view>
-        <view class="text-cut">
-          {{item.description}}
-        </view>
-      </view>
-      <swiper class="screen-swiper round-dot" indicator-dots="true">
-        <swiper-item wx:for="{{item.images}}" wx:key="index">
-          <image src="{{imageMap[item]}}" mode="aspectFill"></image>
-        </swiper-item>
-      </swiper>
-      <view class="text-gray text-sm text-right padding">
-        <text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.viewCount}}
-      </view>
-    </view>
-  </view>
+<view v-if="{{eventType}}">
+  <events user="{{user}}" eventType="{{eventType}}"></events>
 </view>

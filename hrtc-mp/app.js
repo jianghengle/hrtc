@@ -7,22 +7,15 @@ App({
     var that = this
     wx.login({
       success: res => {
-        console.log('wx login')
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         const data = {
           code: res.code
         }
         httpPost('/user/wx-login', data).then(resp => {
-          console.log('success', resp.data)
           var user = resp.data
           that.globalData.user = user
-          if (user.nicknameNotSet) {
-            wx.redirectTo({
-              url: '/pages/me/me',
-            })
-          }
         }).catch(err => {
-          console.log('fail', err)
+          console.log('wx-login failed', err)
         })
       }
     })
@@ -44,10 +37,11 @@ App({
   globalData: {
     user: null,
     currentEventId: null,
-    tagMap: {
-      'groupBuy': {color: 'blue', text: '团购'},
-      'chef': {color: 'red', text: '私厨'},
-      'other': {color: 'green', text: '其他'},
+    currentEventType: null,
+    eventTypeMap: {
+      'groupBuy': {color: 'blue', text: '团购', addButton: '发起新团购'},
+      'chef': {color: 'green', text: '私厨', addButton: '发布新私厨'},
     },
+    currentEvent: null,
   }
 })

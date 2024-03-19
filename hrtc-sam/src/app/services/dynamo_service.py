@@ -69,7 +69,7 @@ def get_item(table, key_name, key_value):
     response = table.get_item(Key={ key_name: key_value })
     return response.get('Item', None)
 
-def update_item(table, key_name, key_value, attr_updates):
+def update_item(table, key_name, key_value, attr_updates, list_appends={}):
     key = { key_name: key_value }
     exp_names = {}
     exp_values = {}
@@ -78,6 +78,10 @@ def update_item(table, key_name, key_value, attr_updates):
         exp_names['#' + attr_name] = attr_name
         exp_values[':' + attr_name] = attr_updates[attr_name]
         exp_parts.append('#' + attr_name + ' = :' + attr_name)
+    for attr_name in list_appends:
+        exp_names['#' + attr_name] = attr_name
+        exp_values[':' + attr_name] = list_appends[attr_name]
+        exp_parts.append('#' + attr_name + ' = list_append(#' + attr_name + ', :' + attr_name + ')')
         
     exp = 'SET '  + ', '.join(exp_parts)
     response = table.update_item(

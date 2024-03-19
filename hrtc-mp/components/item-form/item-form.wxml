@@ -1,0 +1,16 @@
+<!--components/item-form/item-form.wxml-->
+<view class="cu-form-group margin-top">
+  <view class="title">条目名称</view>
+  <input model:value="{{title}}"></input>
+  <view class="menu-icon" bindtap="openMenu">
+    <text class="cuIcon-moreandroid lg"></text>
+  </view>
+</view>
+
+<view class="cu-form-group align-start">
+  <view class="title">条目描述</view>
+  <textarea auto-height="{{true}}" model:value="{{text}}"></textarea>
+</view>
+
+<images initialImages="{{images}}" imageMap="{{imageMap}}" editable="{{true}}"
+  bind:deleteimage="deleteImage" bind:chooseimage="chooseImage" />

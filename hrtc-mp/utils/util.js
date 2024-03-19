@@ -1,19 +1,12 @@
 const server = 'https://bzb752uzy5.execute-api.us-west-2.amazonaws.com/Prod'
 
-const formatTime = date => {
-  const year = date.getFullYear()
+const formatTime = timestamp => {
+  var date = new Date(timestamp)
   const month = date.getMonth() + 1
   const day = date.getDate()
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
-
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
-}
-
-const formatNumber = n => {
-  n = n.toString()
-  return n[1] ? n : '0' + n
+  const hour = date.getHours() < 10 ? ('0' + date.getHours()) : date.getHours()
+  const minute = date.getMinutes() < 10 ? ('0' + date.getMinutes()) : date.getMinutes()
+  return month + '月' + day + '日 ' +  hour + ':' + minute
 }
 
 const formatDate = timestamp => {
@@ -132,6 +125,22 @@ const downloadFile = (key, app) => {
   })
 }
 
+function generateUUID() { // Public Domain/MIT
+  var d = new Date().getTime();//Timestamp
+  var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16;//random number between 0 and 16
+      if(d > 0){//Use timestamp until depleted
+          r = (d + r)%16 | 0;
+          d = Math.floor(d/16);
+      } else {//Use microseconds since page-load if supported
+          r = (d2 + r)%16 | 0;
+          d2 = Math.floor(d2/16);
+      }
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
+
 module.exports = {
   formatTime: formatTime,
   formatDate: formatDate,
@@ -140,4 +149,5 @@ module.exports = {
   httpPost: httpPost,
   uploadFile: uploadFile,
   downloadFile: downloadFile,
+  generateUUID: generateUUID,
 }
