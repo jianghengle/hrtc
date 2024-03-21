@@ -19,7 +19,7 @@
       </view>
     </view>
     <view class="cu-list menu-avatar">
-      <view class="cu-item" wx:for="{{userEventMap[eventId]}}" wx:for-item="thread" wx:key="index" data-thread="{{thread}}" bindtap="openThread">
+      <view class="cu-item" wx:for="{{eventThreadsMap[eventId]}}" wx:for-item="thread" wx:key="index" data-thread="{{thread}}" bindtap="openThread">
         <view class="cu-avatar round lg" style="background-image:url({{userMap[thread.latestChat.userId].avatarUrl}});"></view>
         <view class="content">
           <view>

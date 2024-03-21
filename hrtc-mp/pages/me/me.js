@@ -51,7 +51,6 @@ Page({
       if (nickname == defaultNickname) {
         that.checkAndGetLocation()
       }
-      that.getEvents()
     })
   },
 

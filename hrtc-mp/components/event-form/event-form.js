@@ -1,5 +1,5 @@
 // components/event-form/event-form.js
-import { httpPost } from '../../utils/util'
+import { httpPost, uploadFile } from '../../utils/util'
 
 const app = getApp()
 
@@ -28,6 +28,7 @@ Component({
     ],
     actionSheetFlowIndex: -1,
     showActionsheet: false,
+    newImageMap: {},
   },
 
   /**
@@ -167,6 +168,35 @@ Component({
       var newItems = this.data.items.slice()
       newItems.splice(index, 1)
       this.setData({items: newItems})
+    },
+    itemChooseImage (e) {
+      var index = e.detail.index
+      var that = this
+      wx.chooseMedia({
+        count: 1,
+        mediaType: ['image'],
+        sourceType: ['album','camera'],
+        success(res){
+          if (res.tempFiles && res.tempFiles.length) {
+            var path = res.tempFiles[0].tempFilePath
+            wx.showLoading({title: '上传中'})
+            uploadFile(path, app).then(resp => {
+              that.setData({
+                newImageMap: {
+                  [index]: {key: resp.key, source: 's3'}
+                }
+              })
+              wx.hideLoading()
+            }).catch(err => {
+              wx.hideLoading()
+              console.log('uploadFile failed')
+            })
+          }
+        }
+      })
+    },
+    itemNewImageAdded (e) {
+      this.setData({newImageMap: {}})
     },
   },
   observers: {

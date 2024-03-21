@@ -12,6 +12,7 @@ Component({
     item: null,
     index: null,
     imageMap: {},
+    newImageMap: {},
   },
 
   /**
@@ -60,32 +61,8 @@ Component({
       this.setData({images: newImages})
     },
     chooseImage () {
-      var that = this
-      wx.chooseMedia({
-        count: 1,
-        mediaType: ['image'],
-        sourceType: ['album','camera'],
-        success(res){
-          if (res.tempFiles && res.tempFiles.length) {
-            var path = res.tempFiles[0].tempFilePath
-            wx.showLoading({title: '上传中'})
-            uploadFile(path, app).then(resp => {
-              var newImages = that.data.images.slice()
-              newImages.push({
-                key: resp.key,
-                source: 's3',
-              })
-              that.setData({images: newImages})
-              wx.hideLoading()
-            }).catch(err => {
-              wx.hideLoading()
-              console.log('uploadFile failed')
-            })
-          }
-        }
-      })
+      this.triggerEvent('itemchooseimage', {index: this.properties.index})
     },
-    
   },
 
   observers: {
@@ -106,6 +83,15 @@ Component({
     },
     'images': function(images) {
       this.updateItem()
+    },
+    'newImageMap': function(newImageMap) {
+      if (newImageMap[this.properties.index]) {
+        var newImage = newImageMap[this.properties.index]
+        var newImages = this.data.images.slice()
+        newImages.push(newImage)
+        this.setData({images: newImages})
+        this.triggerEvent('itemnewimageadded', {index: this.properties.index})
+      }
     },
   },
 })

@@ -16,8 +16,9 @@
 
 <view wx:if="{{items}}">
   <view wx:for="{{items}}" wx:key="index">
-    <item-form item="{{item}}" index="{{index}}" imageMap="{{imageMap}}"
-      bind:itemchanged="itemChanged" bind:openmenu="openMenu">
+    <item-form item="{{item}}" index="{{index}}" imageMap="{{imageMap}}" newImageMap="{{newImageMap}}"
+      bind:itemchanged="itemChanged" bind:openmenu="openMenu"
+      bind:itemchooseimage="itemChooseImage" bind:itemnewimageadded="itemNewImageAdded">
     </item-form>
   </view>
 </view>
@@ -25,7 +26,7 @@
 <view class="padding">
   <button class="cu-btn lines-blue" bindtap="addItem">
     <text class="cuIcon-add lg add-icon"></text>
-    <text>添加条目</text>
+    <text>添加章节</text>
   </button>
 </view>
 

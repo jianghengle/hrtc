@@ -121,12 +121,14 @@ Page({
   },
 
   submitTextChat (e) {
-    var chat = {
-      type: 'text',
-      content: e.detail.value.chatText,
-      timestamp: Date.now(),
+    if (e.detail.value.chatText.trim()) {
+      var chat = {
+        type: 'text',
+        content: e.detail.value.chatText,
+        timestamp: Date.now(),
+      }
+      this.submitChat(chat)
     }
-    this.submitChat(chat)
   },
 
   submitChat (chat) {
@@ -139,10 +141,11 @@ Page({
     httpPost('/thread/submit-chat', data, app).then(resp => {
       var threadId = resp.data.threadId
       app.globalData.currentThreadId = threadId
-      that.setData({
-        threadId: threadId,
-        inputText: '',
-      })
+      var newData = {threadId: threadId}
+      if (chat.type == 'text') {
+        newData.inputText = ''
+      }
+      that.setData(newData)
       that.getNewChats()
     }).catch(err => {
       console.log('submit chat failed')

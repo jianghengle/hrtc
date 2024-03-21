@@ -13,7 +13,7 @@ Page({
     user: null,
     eventIds: null,
     ownedEventMap: null,
-    userEventMap: null,
+    eventThreadsMap: null,
     userMap: {},
     eventMap: {},
   },
@@ -56,7 +56,7 @@ Page({
       var eventIds = []
       var userIds = []
       var ownedEventMap = {}
-      var userEventMap = {}
+      var eventThreadsMap = {}
       for (var thread of threads) {
         thread.latestChat.timeLabel = formatTime(thread.latestChat.timestamp)
         thread.missingCount = (thread.eventOwnerId == that.data.user.id) ? (thread.chatCount - thread.eventOwnerCount) : (thread.chatCount - thread.userCount)
@@ -66,14 +66,16 @@ Page({
         if (thread.eventOwnerId == that.data.user.id) {
           if (!ownedEventMap[thread.eventId]) {
             ownedEventMap[thread.eventId] = []
+            eventThreadsMap[thread.eventId] = []
           }
           if (!userIds.includes(thread.userId)) {
             userIds.push(thread.userId)
           }
           ownedEventMap[thread.eventId].push(thread)
+          eventThreadsMap[thread.eventId].push(thread)
         } else {
           userIds.push(thread.eventOwnerId)
-          userEventMap[thread.eventId] = [thread]
+          eventThreadsMap[thread.eventId] = [thread]
         }
       }
       
@@ -82,7 +84,7 @@ Page({
       that.setData({
         eventIds: eventIds,
         ownedEventMap: ownedEventMap,
-        userEventMap: userEventMap,
+        eventThreadsMap: eventThreadsMap,
       })
       wx.hideLoading()
     }).catch(err => {
