@@ -9,7 +9,7 @@
 
 <view class="cu-form-group align-start">
   <view class="title">条目描述</view>
-  <textarea auto-height="{{true}}" model:value="{{text}}"></textarea>
+  <textarea auto-height="{{true}}" model:value="{{text}}" maxlength="{{1000}}"></textarea>
 </view>
 
 <images initialImages="{{images}}" imageMap="{{imageMap}}" editable="{{true}}"

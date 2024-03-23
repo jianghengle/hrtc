@@ -44,7 +44,7 @@
 }
 
 .input-text {
-  padding-top: 10px;
+  padding-top: 20px;
 }
 
 .submit-btn {

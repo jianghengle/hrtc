@@ -63,14 +63,16 @@
 
 
 <form bindsubmit="submitTextChat">
-  <view class="cu-bar foot input">
+  <view class="cu-bar foot input input-bottom-bar">
     <view class="action" bindtouchstart="startRecord" bindtouchend="stopRecord">
       <text class="cuIcon-sound text-grey"></text>
     </view>
     <view class="action pic-btn" bind:tap="chooseImage">
       <text class="cuIcon-pic text-grey"></text>
     </view>
-    <textarea name="chatText" class="input-text" bindlinechange="inputLineChanged" style="height:{{inputHeight}}px" value="{{inputText}}"></textarea>
+    <textarea name="chatText" class="input-text" bindlinechange="inputLineChanged" style="height:{{inputHeight}}px" value="{{inputText}}"
+      maxlength="{{500}}" cursor-spacing="{{15}}">
+    </textarea>
     <button class="cu-btn bg-green shadow submit-btn" form-type="submit">发送</button>
   </view>
 </form>

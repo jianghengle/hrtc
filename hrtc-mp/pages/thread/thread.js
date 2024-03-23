@@ -161,10 +161,23 @@ Page({
     httpPost('/thread/get-new-chats', data, app).then(resp => {
       if (resp.data.chatCount > that.data.chatCount) {
         var chats = resp.data.newChats.slice(that.data.chatCount - resp.data.chatCount)
+        var newChatImageKeys = that.data.chatImageKeys.slice()
+        for(var chat of chats) {
+          if (chat.type == 'image') {
+            newChatImageKeys.push(chat.key)
+            httpPost('/s3/get-s3-download-url', {key: chat.key}, app).then(resp => {
+              var image = resp.data
+              that.setData({
+                chatImageMap: {...that.data.chatImageMap, [image.key]: image.url}
+              })
+            })
+          }
+        }
         var newChats = that.data.chats.concat(chats)
         that.addTimeLabels (newChats)
         that.setData({
           chats: newChats,
+          chatImageKeys: newChatImageKeys,
           chatCount: resp.data.chatCount,
         })
         that.scrollToBottom()

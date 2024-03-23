@@ -6,7 +6,7 @@
 
 <view class="cu-form-group align-start">
   <view class="title">描述</view>
-  <textarea auto-height="{{true}}" model:value="{{description}}"></textarea>
+  <textarea auto-height="{{true}}" model:value="{{description}}" maxlength="{{1000}}"></textarea>
 </view>
 
 <view class="cu-form-group">
