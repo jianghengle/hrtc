@@ -29,6 +29,7 @@ Page({
     chatPuller: null,
     timestampPuller: null,
     eventOutdated: false,
+    keyboardHeight: 0,
   },
 
   /**
@@ -149,6 +150,26 @@ Page({
       that.getNewChats()
     }).catch(err => {
       console.log('submit chat failed')
+    })
+  },
+
+  inputConfirmed (e) {
+    if (e.detail.value.trim()) {
+      var chat = {
+        type: 'text',
+        content: e.detail.value,
+        timestamp: Date.now(),
+      }
+      this.submitChat(chat)
+    }
+  },
+
+  keyboardHeightChanged (e) {
+    var that = this
+    this.setData(
+      {keyboardHeight: e.detail.height}
+    , () => {
+      that.scrollToBottom()
     })
   },
 

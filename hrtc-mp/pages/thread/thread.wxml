@@ -4,7 +4,7 @@
 </cu-custom>
 
 <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" scroll-with-animation="true"
-  style="{{'height:calc(100vh - 80px)'}}">
+  style="{{'height:calc(100vh - 80px - ' + keyboardHeight + 'px)'}}">
   <view class="cu-bar bg-white solid-bottom">
     <view class="action">
       <text class="cuIcon-title text-{{eventOutdated ? 'red' : 'blue'}}" bindtap="getEvent">
@@ -63,17 +63,18 @@
 
 
 <form bindsubmit="submitTextChat">
-  <view class="cu-bar foot input input-bottom-bar">
+  <view class="cu-bar foot input input-bottom-bar" style="{{'bottom:' + keyboardHeight + 'px'}}">
     <view class="action" bindtouchstart="startRecord" bindtouchend="stopRecord">
       <text class="cuIcon-sound text-grey"></text>
     </view>
     <view class="action pic-btn" bind:tap="chooseImage">
       <text class="cuIcon-pic text-grey"></text>
     </view>
-    <textarea name="chatText" class="input-text" bindlinechange="inputLineChanged" style="height:{{inputHeight}}px" value="{{inputText}}"
-      maxlength="{{500}}" cursor-spacing="{{15}}">
+    <textarea name="chatText" class="input-text" bindlinechange="inputLineChanged" value="{{inputText}}"
+      style="height:{{inputHeight}}px" bindkeyboardheightchange="keyboardHeightChanged" adjust-position="{{false}}"
+      placeholder="输入文本" auto-focus="{{true}}" cursor-spacing="{{15}}" hold-keyboard="{{true}}" maxlength="{{500}}"
+      bindconfirm="inputConfirmed" confirm-hold="{{true}}" confirm-type="{{'send'}}" show-confirm-bar="{{false}}">
     </textarea>
-    <button class="cu-btn bg-green shadow submit-btn" form-type="submit">发送</button>
   </view>
 </form>
 
