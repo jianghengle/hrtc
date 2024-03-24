@@ -5,7 +5,7 @@
 
 <tabbar selected="2"></tabbar>
 
-<view wx:if="{{eventIds && ownedEventMap}}">
+<view wx:if="{{eventIds && ownedEventMap}}" class="threads-container">
   <view class="padding" wx:if="{{!eventIds.length}}">
     <view class="padding bg-grey radius">
       没有找到任何聊天记录。
@@ -19,7 +19,8 @@
       </view>
     </view>
     <view class="cu-list menu-avatar">
-      <view class="cu-item" wx:for="{{eventThreadsMap[eventId]}}" wx:for-item="thread" wx:key="index" data-thread="{{thread}}" bindtap="openThread">
+      <view class="cu-item" wx:for="{{eventThreadsMap[eventId]}}" wx:for-item="thread"
+        wx:for-index="index" wx:key="index" data-thread="{{thread}}" bindtap="openThread">
         <view class="cu-avatar round lg" style="background-image:url({{userMap[thread.latestChat.userId].avatarUrl}});"></view>
         <view class="content">
           <view>

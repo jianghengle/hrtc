@@ -1,4 +1,8 @@
 /* pages/me/me.wxss */
+.page-container {
+  padding-bottom: 80px;
+}
+
 .avatar-wrapper {
   padding: 0;
   width: 56px !important;

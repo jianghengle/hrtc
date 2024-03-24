@@ -71,7 +71,7 @@
       <text class="cuIcon-pic text-grey"></text>
     </view>
     <textarea name="chatText" class="input-text" bindlinechange="inputLineChanged" value="{{inputText}}"
-      style="height:{{inputHeight}}px" bindkeyboardheightchange="keyboardHeightChanged" adjust-position="{{false}}"
+      style="height:{{inputHeight}}px" bindkeyboardheightchange="keyboardHeightChanged" adjust-position="{{false}}" bindfocus="keyboardHeightChanged"
       placeholder="输入文本" auto-focus="{{true}}" cursor-spacing="{{15}}" hold-keyboard="{{true}}" maxlength="{{500}}"
       bindconfirm="inputConfirmed" confirm-hold="{{true}}" confirm-type="{{'send'}}" show-confirm-bar="{{false}}">
     </textarea>

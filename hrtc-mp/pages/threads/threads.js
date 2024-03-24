@@ -74,11 +74,12 @@ Page({
           ownedEventMap[thread.eventId].push(thread)
           eventThreadsMap[thread.eventId].push(thread)
         } else {
-          userIds.push(thread.eventOwnerId)
+          if (!userIds.includes(thread.eventOwnerId)) {
+            userIds.push(thread.eventOwnerId)
+          }
           eventThreadsMap[thread.eventId] = [thread]
         }
       }
-      
       that.getUsers(userIds)
       that.getEvents(eventIds)
       that.setData({

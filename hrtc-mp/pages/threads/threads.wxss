@@ -1,1 +1,4 @@
 /* pages/threads/threads.wxss */
+.threads-container {
+  padding-bottom: 80px;
+}

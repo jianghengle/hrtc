@@ -71,7 +71,7 @@
     </view>
     <view class="cu-list menu-avatar" wx:if="{{isOwner}}">
       <view class="cu-item" wx:for="{{eventThreads}}" wx:key="index" data-id="{{item.id}}" bindtap="openThread">
-        <view class="cu-avatar round lg" style="background-image:url({{userMap[item.eventOwnerId].avatarUrl}});"></view>
+        <view class="cu-avatar round lg" style="background-image:url({{userMap[item.userId].avatarUrl}});"></view>
         <view class="content">
           <view class="text-blue">
             <text class="text-cut">{{userMap[item.userId] && userMap[item.userId].nickname}}</text>
