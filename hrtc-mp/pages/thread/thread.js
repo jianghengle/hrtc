@@ -51,15 +51,16 @@ Page({
         var thread = resp.data
         var chats = thread.chats
         var chatImageKeys = []
+        var promises = []
         for(var chat of chats) {
           if (chat.type == 'image') {
             chatImageKeys.push(chat.key)
-            httpPost('/s3/get-s3-download-url', {key: chat.key}, app).then(resp => {
+            promises.push(httpPost('/s3/get-s3-download-url', {key: chat.key}, app).then(resp => {
               var image = resp.data
               that.setData({
                 chatImageMap: {...that.data.chatImageMap, [image.key]: image.url}
               })
-            })
+            }))
           }
         }
         that.addTimeLabels(chats)
@@ -71,6 +72,11 @@ Page({
         })
         that.scrollToBottom()
         that.startPullingChats()
+        Promise.all(promises).then(data => {
+          setTimeout(() => {
+            that.scrollToBottom()
+          }, 1000)
+        })
         wx.hideLoading()
       }).catch(err => {
         console.log('get thread failed', err)

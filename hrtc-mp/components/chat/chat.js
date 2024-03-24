@@ -1,7 +1,8 @@
 // components/chat/chat.js
-import { downloadFile } from '../../utils/util'
+import { httpPost } from '../../utils/util'
 
 const app = getApp()
+const audioManager = wx.getBackgroundAudioManager()
 
 Component({
 
@@ -22,7 +23,6 @@ Component({
     eventOwnerId: null,
     audioDuration: null,
     audioUrl: null,
-    playingAudio: false,
   },
 
   /**
@@ -38,33 +38,26 @@ Component({
         urls: urls,
       })
     },
-    toggleAudio () {
+    playAudio () {
       var that = this
-      wx.onBackgroundAudioStop(() => {
-        that.setData({playingAudio: false})
-      })
-      if (that.data.playingAudio) {
-        wx.pauseBackgroundAudio()
-        that.setData({playingAudio: false})
+      if (that.data.audioUrl) {
+        audioManager.title = '播放 ' + that.data.audioDuration + '秒'
+        audioManager.src = that.data.audioUrl
       } else {
-        if (that.data.audioUrl) {
-          wx.playBackgroundAudio({dataUrl: that.data.audioUrl})
-          that.setData({playingAudio: true})
-        } else {
-          wx.showLoading({title: '下载中'})
-          downloadFile(that.properties.chat.key, app).then(tempUrl => {
-            wx.playBackgroundAudio({
-              dataUrl: tempUrl
-            })
-            that.setData({
-              audioUrl: tempUrl,
-              playingAudio: true,
-            })
-            wx.hideLoading()
-          }).catch(err => {
-            wx.hideLoading()
+        wx.showLoading({title: '下载中'})
+        httpPost('/s3/get-s3-download-url', {
+          key: that.properties.chat.key
+        }, app).then(resp => {
+          that.setData({
+            audioUrl: resp.data.url
           })
-        }
+          audioManager.title = '播放音频' + that.data.audioDuration + '秒'
+          audioManager.src = resp.data.url
+          wx.hideLoading()
+        }).catch(err => {
+          console.log('failed to download audio')
+          wx.hideLoading()
+        })
       }
     },
   },
@@ -77,7 +70,9 @@ Component({
         isChatOwnerEventOwner: this.properties.chat.userId == app.globalData.currentEvent.ownerId,
       })
       if (this.properties.chat.type == 'audio') {
-        this.setData({audioDuration: Math.round(this.properties.chat.duration / 1000)})
+        this.setData({
+          audioDuration: Math.round(this.properties.chat.duration / 1000),
+        })
       }
     },
   },

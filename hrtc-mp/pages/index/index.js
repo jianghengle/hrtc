@@ -18,4 +18,10 @@ Page({
       })
     })
   },
+  onShareAppMessage() {
+    return {
+      title: '华人同城 GroupGo',
+      path: '/pages/index/index',
+    }
+  }
 })
