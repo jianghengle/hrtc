@@ -7,7 +7,7 @@
         <text>{{chat.content}}</text>
       </view>
       <image wx:if="{{chat.type == 'image'}}" src="{{chatImageMap[chat.key]}}" class="radius" mode="widthFix" bind:tap="previewImage"></image>
-      <view wx:if="{{chat.type == 'audio'}}" class="content shadow" bindtap="playAudio">
+      <view wx:if="{{chat.type == 'audio'}}" class="content shadow {{isChatOwner ? 'bg-green' : ''}}" bindtap="playAudio">
         <text class="cuIcon-sound text-xxl padding-left-xl"></text>
       </view>
       <view wx:if="{{chat.type == 'audio'}}" class="action text-bold text-grey">

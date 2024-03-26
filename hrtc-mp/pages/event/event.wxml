@@ -2,6 +2,8 @@
   <view slot="content">{{event ? event.title : '华人同城'}}</view>
 </cu-custom>
 
+<tabbar selected="-1"></tabbar>
+
 <view class="event-container" wx:if="event">
   <view class="cu-card dynamic no-card">
     <view class="cu-item shadow">

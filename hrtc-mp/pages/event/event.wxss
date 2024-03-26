@@ -1,6 +1,6 @@
 /* pages/event/event.wxss */
 .event-container {
-  padding-bottom: 40px;
+  padding-bottom: 100px;
 }
 
 .title-padding {
