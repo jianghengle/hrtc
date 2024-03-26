@@ -17,6 +17,13 @@ const formatDate = timestamp => {
   return year + '年' + month + '月' + day + '日'
 }
 
+const formatDateShort = timestamp => {
+  var date = new Date(timestamp)
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  return month + '月' + day + '日'
+}
+
 const waitForUser = (app, callback) => {
   wx.showLoading({
     title: '加载中',
@@ -28,6 +35,14 @@ const waitForUser = (app, callback) => {
     setTimeout(function () {
       waitForUser(app, callback)
     }, 1000)
+  }
+}
+
+const checkUser = user => {
+  if (user.nickname == '微信用户') {
+    wx.redirectTo({
+      url: '/pages/me/me',
+    })
   }
 }
 
@@ -144,7 +159,9 @@ function generateUUID() { // Public Domain/MIT
 module.exports = {
   formatTime: formatTime,
   formatDate: formatDate,
+  formatDateShort: formatDateShort,
   waitForUser: waitForUser,
+  checkUser: checkUser,
   httpGet: httpGet,
   httpPost: httpPost,
   uploadFile: uploadFile,

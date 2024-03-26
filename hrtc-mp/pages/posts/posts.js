@@ -100,10 +100,4 @@ Page({
 
   },
 
-  /**
-   * Called when user click on the top right corner to share
-   */
-  onShareAppMessage() {
-
-  }
 })

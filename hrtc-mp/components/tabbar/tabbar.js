@@ -1,3 +1,8 @@
+import { httpGet } from '../../utils/util'
+
+//获取应用实例
+const app = getApp()
+
 // components/tabbar/tabbar.js
 Component({
 
@@ -29,7 +34,8 @@ Component({
         pagePath: "/pages/threads/threads",
         iconPath: "/images/tabbar/component.png",
         selectedIconPath: "/images/tabbar/component_cur.png",
-        text: "对话"
+        text: "对话",
+        tag: 0,
       },
       {
         pagePath: "/pages/me/me",
@@ -37,7 +43,8 @@ Component({
         selectedIconPath: "/images/tabbar/about_cur.png",
         text: "我的"
       },
-    ]
+    ],
+    threadsChecker: null,
   },
 
   /**
@@ -50,6 +57,50 @@ Component({
       wx.redirectTo({
         url: url,
       })
-    }
-  }
+    },
+    checkThreads () {
+      console.log('check threads')
+      if (!app.globalData.user) {
+        return
+      }
+      var that = this
+      httpGet('/thread/get-threads', app).then(resp => {
+        var missingChats = 0
+        for (var thread of resp.data.threads) {
+          var missingCount = (thread.eventOwnerId == app.globalData.user.id) ? (thread.chatCount - thread.eventOwnerCount) : (thread.chatCount - thread.userCount)
+          if (missingCount > 0) {
+            missingChats += missingCount
+          }
+        }
+        that.setData({
+          'list[2].tag': missingChats,
+        })
+        app.globalData.missingChats = missingChats
+      }).catch(err => {
+        console.log('Failed to get threads to check')
+      })
+    },
+  },
+
+  lifetimes: {
+    attached: function() {
+      this.setData({
+        'list[2].tag': app.globalData.missingChats,
+      })
+      if (!this.data.threadsChecker) {
+        var that = this
+        var threadsChecker = setInterval(() => {
+          that.checkThreads()
+        }, 60000)
+        that.setData({threadsChecker: threadsChecker})
+      }
+    },
+    detached: function() {
+      console.log('tab detached')
+      if (this.data.threadsChecker) {
+        clearInterval(this.data.threadsChecker)
+        this.setData({threadsChecker: null})
+      }
+    },
+  },
 })

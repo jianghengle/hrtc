@@ -1,5 +1,5 @@
 // pages/threads/threads.js
-import { formatTime, waitForUser, httpGet } from '../../utils/util'
+import { formatDateShort, formatTime, waitForUser, httpGet } from '../../utils/util'
 
 //获取应用实例
 const app = getApp()
@@ -114,6 +114,7 @@ Page({
       if (!that.data.eventMap[eventId]) {
         httpGet('/event/get-event/' + eventId, app).then(resp => {
           var event = resp.data
+          event.pubDate = formatDateShort(event.openedAt)
           that.setData({
             eventMap: {...that.data.eventMap, [event.id]: event}
           })
@@ -168,10 +169,4 @@ Page({
 
   },
 
-  /**
-   * Called when user click on the top right corner to share
-   */
-  onShareAppMessage() {
-
-  }
 })

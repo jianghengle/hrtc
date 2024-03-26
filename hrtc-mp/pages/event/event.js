@@ -192,6 +192,16 @@ Page({
    * Called when user click on the top right corner to share
    */
   onShareAppMessage() {
+    return {
+      title: this.event.title,
+      path: '/pages/event/event/currentEventId=' + app.globalData.currentEventId,
+    }
+  },
 
-  }
+  onShareTimeline() {
+    return {
+      title: this.event.title,
+      query: {currentEventId: app.globalData.currentEventId},
+    }
+  },
 })

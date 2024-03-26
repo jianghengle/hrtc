@@ -17,6 +17,7 @@
         <text class="cuIcon-title text-{{ownedEventMap[eventId] ? 'orange' : 'blue'}}"></text>
         <text wx:if="{{eventMap[eventId]}}" data-event-id="{{eventId}}" bind:tap="openEvent">{{eventMap[eventId].title}}</text>
       </view>
+      <view class="text-gray text-sm event-date">{{eventMap[eventId].pubDate}}</view>
     </view>
     <view class="cu-list menu-avatar">
       <view class="cu-item" wx:for="{{eventThreadsMap[eventId]}}" wx:for-item="thread"

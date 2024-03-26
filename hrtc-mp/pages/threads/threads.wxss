@@ -2,3 +2,7 @@
 .threads-container {
   padding-bottom: 80px;
 }
+
+.event-date {
+  margin-right: 15px;
+}

@@ -2,7 +2,12 @@
 import { httpPost } from 'utils/util' 
 
 App({
-  onLaunch: function() {
+  onLaunch: function(options) {
+    console.log('onLaunch', options)
+    for (const key in options.query) {
+      this.globalData[key] = options.query[key]
+    }
+    console.log('globalData', this.globalData)
     // 登录
     var that = this
     wx.login({
@@ -43,5 +48,6 @@ App({
       'chef': {color: 'green', text: '私厨', addButton: '发布新私厨'},
     },
     currentEvent: null,
+    missingChats: 0,
   }
 })
