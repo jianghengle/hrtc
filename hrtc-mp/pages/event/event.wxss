@@ -1,6 +1,11 @@
 /* pages/event/event.wxss */
 .event-container {
   padding-bottom: 100px;
+  background-color: #111111;
+}
+
+.border-top-gray {
+  border-top: 1rpx solid #333333;
 }
 
 .title-padding {

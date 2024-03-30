@@ -1,15 +1,15 @@
 <!--components/item-form/item-form.wxml-->
-<view class="cu-form-group margin-top">
-  <view class="title">条目名称</view>
-  <input model:value="{{title}}"></input>
+<view class="cu-form-group margin-top dark-bg">
+  <view class="title text-grey">章节名称</view>
+  <input class="text-main" model:value="{{title}}"></input>
   <view class="menu-icon" bindtap="openMenu">
     <text class="cuIcon-moreandroid lg"></text>
   </view>
 </view>
 
-<view class="cu-form-group align-start">
-  <view class="title">条目描述</view>
-  <textarea auto-height="{{true}}" model:value="{{text}}" maxlength="{{1000}}"></textarea>
+<view class="cu-form-group align-start dark-bg border-top-gray">
+  <view class="title text-grey">章节描述</view>
+  <textarea class="text-main" auto-height="{{true}}" model:value="{{text}}" maxlength="{{1000}}"></textarea>
 </view>
 
 <images initialImages="{{images}}" imageMap="{{imageMap}}" editable="{{true}}"

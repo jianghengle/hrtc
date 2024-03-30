@@ -3,11 +3,11 @@
   <view wx:if="{{isChatOwnerEventOwner}}" class="cu-item chat-item">
     <view class="cu-avatar round" style="background-image:url({{userMap[chat.userId].avatarUrl}});"></view>
     <view class="main">
-      <view class="content shadow {{isChatOwner ? 'bg-green' : ''}}" wx:if="{{chat.type == 'text'}}">
-        <text>{{chat.content}}</text>
+      <view class="content shadow {{isChatOwner ? 'bg-green' : 'light-dark-bg'}}" wx:if="{{chat.type == 'text'}}">
+        <text class="{{isChatOwner ? 'text-black' : 'text-main'}}">{{chat.content}}</text>
       </view>
       <image wx:if="{{chat.type == 'image'}}" src="{{chatImageMap[chat.key]}}" class="radius" mode="widthFix" bind:tap="previewImage"></image>
-      <view wx:if="{{chat.type == 'audio'}}" class="content shadow {{isChatOwner ? 'bg-green' : ''}}" bindtap="playAudio">
+      <view wx:if="{{chat.type == 'audio'}}" class="content text-black shadow {{isChatOwner ? 'bg-green text-black' : 'light-dark-bg text-main'}}" bindtap="playAudio">
         <text class="cuIcon-sound text-xxl padding-left-xl"></text>
       </view>
       <view wx:if="{{chat.type == 'audio'}}" class="action text-bold text-grey">
@@ -18,14 +18,14 @@
   </view>
   <view wx:if="{{!isChatOwnerEventOwner}}" class="cu-item self chat-item">
     <view class="main">
-      <view class="content shadow {{isChatOwner ? 'bg-green' : ''}}" wx:if="{{chat.type == 'text'}}">
-        <text>{{chat.content}}</text>
+      <view class="content shadow {{isChatOwner ? 'bg-green' : 'light-dark-bg'}}" wx:if="{{chat.type == 'text'}}">
+        <text class="{{isChatOwner ? 'text-black' : 'text-main'}}">{{chat.content}}</text>
       </view>
       <image wx:if="{{chat.type == 'image'}}" src="{{chatImageMap[chat.key]}}" class="radius" mode="widthFix" bind:tap="previewImage"></image>
       <view wx:if="{{chat.type == 'audio'}}" class="action text-bold text-grey">
         {{audioDuration}}"
       </view>
-      <view wx:if="{{chat.type == 'audio'}}" class="content shadow {{isChatOwner ? 'bg-green' : ''}}" bindtap="playAudio">
+      <view wx:if="{{chat.type == 'audio'}}" class="content text-black shadow {{isChatOwner ? 'bg-green text-black' : 'light-dark-bg text-main'}}" bindtap="playAudio">
         <text class="cuIcon-sound text-xxl padding-right-xl"></text>
       </view>
     </view>

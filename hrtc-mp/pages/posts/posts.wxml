@@ -1,20 +1,35 @@
 <!--pages/posts/posts.wxml-->
-<cu-custom bgColor="bg-gradual-blue" isBack="true">
+<cu-custom bgColor="bg-black" isBack="true">
   <view slot="content">我的发布</view>
 </cu-custom>
 
+<view class="page-bg">
+
+<view class="add-post-button">
+  <button class="{{'cu-btn line-yellow my-btn'}}" data-event-type="groupBuy" bind:tap="addEvent" >
+    <text class="cuIcon-add lg add-icon"></text>
+    <text>发起新团购</text>
+  </button>
+  <button class="{{'cu-btn line-yellow my-btn'}}" data-event-type="chef" bind:tap="addEvent">
+    <text class="cuIcon-add lg add-icon"></text>
+    <text>发布新私厨</text>
+  </button>
+</view>
+
 <view class="padding" wx:if="{{events && !events.length}}">
-  <view class="padding bg-grey radius">您还没有发布过任何信息！</view>
+  <view class="padding bg-black radius">您还没有发布过任何信息！</view>
 </view>
 
 <view wx:if="{{events && events.length}}" class="events-container">
   <view wx:for="{{events}}" data-event-id="{{item.id}}" bind:tap="openEvent" wx:key="index" class="cu-card article event">
-    <view class="cu-item bg-white radius shadow shadow-lg">
+    <view class="cu-item bg-white radius shadow shadow-lg card-bg">
       <view class="title">
         <view class="text-cut">
-          <text class="{{item.status == 'open' ? 'text-black' : 'text-grey'}}">{{item.title}}</text>
+          <text class="{{item.status == 'open' ? 'text-main' : 'text-gray'}}">{{item.title}}</text>
           <view class="edit-icon">
-            <text class="cuIcon-edit bg-blue lg" data-event-id="{{item.id}}" bind:tap="editEvent"></text>
+            <button class="cu-btn line-yellow" data-event-id="{{item.id}}" bind:tap="editEvent">
+              <text style="font-weight: normal;">编辑</text>
+            </button>
           </view>
         </view>
       </view>
@@ -28,10 +43,12 @@
             <view class="text-gray text-sm text-right view-count">
               <text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.viewCount}}
             </view>
-            <view class="{{'cu-tag radius event-tag bg-' + item.tag.color}}">{{item.tag.text}}</view>
+            <view class="{{'cu-tag radius event-tag bg-yellow'}}">{{item.tag.text}}</view>
           </view>
         </view>
       </view>
     </view>
   </view>
+</view>
+
 </view>

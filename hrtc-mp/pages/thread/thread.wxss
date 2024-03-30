@@ -45,6 +45,7 @@
 
 .input-text {
   padding-top: 20px;
+  color: #d8d8d8!important;
 }
 
 .submit-btn {
@@ -53,4 +54,8 @@
   padding-left: 6px!important;
   padding-right: 6px!important;
   width: 50px;
+}
+
+.thread-bg {
+  background-color: #111111!important;
 }

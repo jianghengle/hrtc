@@ -1,9 +1,10 @@
 <!--pages/edit-event/edit-event.wxml-->
-<cu-custom bgColor="bg-gradual-blue" isBack="true">
+<cu-custom bgColor="bg-black" isBack="true">
   <view slot="content">{{event ? event.title : ''}}</view>
 </cu-custom>
 
-<view wx:if="{{event}}">
-  <event-form event="{{event}}" imageMap="{{imageMap}}" bind:imageadded="imageAdded"></event-form>
+<view class="page-bg">
+  <view wx:if="{{event}}">
+    <event-form event="{{event}}" imageMap="{{imageMap}}" bind:imageadded="imageAdded"></event-form>
+  </view>
 </view>
-

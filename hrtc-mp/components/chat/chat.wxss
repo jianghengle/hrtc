@@ -9,3 +9,11 @@
 .chat-time {
   bottom: -10rpx!important;
 }
+
+.light-dark-bg {
+  background-color: #1b1b1b!important;
+}
+
+.text-main {
+  color: #d8d8d8!important;
+}

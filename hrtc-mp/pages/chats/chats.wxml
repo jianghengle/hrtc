@@ -1,5 +1,5 @@
 <!--pages/chats/chats.wxml-->
-<cu-custom bgColor="bg-gradual-blue">
+<cu-custom bgColor="bg-black">
   <view slot="content">对话</view>
 </cu-custom>
 

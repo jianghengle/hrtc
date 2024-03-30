@@ -1,21 +1,23 @@
-<cu-custom bgColor="bg-gradual-blue" isBack="true">
+<cu-custom bgColor="bg-black" isBack="true">
   <view slot="content">{{event ? event.title : '华人同城'}}</view>
 </cu-custom>
 
 <tabbar selected="-1"></tabbar>
 
+<view class="page-bg">
+
 <view class="event-container" wx:if="event">
   <view class="cu-card dynamic no-card">
-    <view class="cu-item shadow">
+    <view class="cu-item shadow card-bg">
       <view class="cu-list menu-avatar title-padding">
-        <view class="cu-item">
+        <view class="cu-item card-bg">
           <view wx:if="{{!isOwner}}" class="text-grey text-xl text-right padding" style="z-index:100;" bindtap="getEvent">
             <text class="cuIcon-title text-red refresh-badge" wx:if="{{eventOutdated}}"></text>
             <text class="cuIcon-refresh margin-lr-xs"></text>
           </view>
           <view class="cu-avatar round lg" style="{{'background-image:url(' + event.owner.avatarUrl + ');'}}"></view>
           <view class="content flex-sub">
-            <view>{{event.owner.nickname}}</view>
+            <view class="text-user">{{event.owner.nickname}}</view>
             <view class="text-gray text-sm flex justify-between">
               {{event.pubDate}}
             </view>
@@ -23,16 +25,16 @@
         </view>
       </view>
       <view class="text-content event-content event-padding">
-        <view class="text-bold">
-          <view class="{{'cu-tag radius event-tag bg-' + event.tag.color}}">{{event.tag.text}}</view>
-          <view class="text-bold color-gray">{{event.title}}</view>
+        <view>
+          <view class="cu-tag radius event-tag bg-yellow">{{event.tag.text}}</view>
+          <view class="text-main">{{event.title}}</view>
         </view>
-        <view class="description color-gray">{{event.description}}</view>
+        <view class="description text-gray">{{event.description}}</view>
       </view>
 
       <view class="padding event-padding" wx:for="{{event.items}}" wx:key="index">
-        <view wx:if="{{item.title}}" class="text-bold color-gray">{{item.title}}</view>
-        <view wx:if="{{item.text}}" class="description color-gray">{{item.text}}</view>
+        <view wx:if="{{item.title}}" class="text-main">{{item.title}}</view>
+        <view wx:if="{{item.text}}" class="description text-gray">{{item.text}}</view>
         <images initialImages="{{item.images}}" imageMap="{{imageMap}}" allImageKeys="{{imageKeys}}" editable="{{false}}"/>
       </view>
 
@@ -44,20 +46,21 @@
   </view>
 
   <view wx:if="{{eventThreads}}">
-    <view class="cu-bar bg-white solid-bottom margin-top">
+    <view class="cu-bar bg-white solid-bottom margin-top card-bg">
       <view class="action">
-        <text class="cuIcon-title text-orange "></text> 对话
+        <text class="cuIcon-title text-orange"></text>
+        <text class="text-gray">对话</text>
       </view>
       <view class="action" wx:if="{{!isOwner && eventThreads.length == 0}}">
-        <button class="cu-btn bg-green shadow" bindtap="openNewThread">发起对话</button>
+        <button class="cu-btn line-yellow shadow" bindtap="openNewThread">发起对话</button>
       </view>
     </view>
     <view class="cu-list menu-avatar" wx:if="{{!isOwner}}">
-      <view class="cu-item" wx:for="{{eventThreads}}" wx:key="index" data-id="{{item.id}}" bindtap="openThread">
+      <view class="cu-item card-bg border-top-gray" wx:for="{{eventThreads}}" wx:key="index" data-id="{{item.id}}" bindtap="openThread">
         <view class="cu-avatar round lg" style="background-image:url({{userMap[item.latestChat.userId].avatarUrl}});"></view>
         <view class="content">
-          <view>
-            <text class="text-cut">{{userMap[item.latestChat.userId].nickname}}</text>
+          <view class="text-main">
+            <text class="text-cut text-user">{{userMap[item.latestChat.userId].nickname}}</text>
           </view>
           <view class="text-gray text-sm flex">
             <text class="text-cut latest-chat" wx:if="{{item.latestChat.type == 'text'}}">{{item.latestChat.content}}</text>
@@ -72,11 +75,11 @@
       </view>
     </view>
     <view class="cu-list menu-avatar" wx:if="{{isOwner}}">
-      <view class="cu-item" wx:for="{{eventThreads}}" wx:key="index" data-id="{{item.id}}" bindtap="openThread">
+      <view class="cu-item card-bg border-top-gray" wx:for="{{eventThreads}}" wx:key="index" data-id="{{item.id}}" bindtap="openThread">
         <view class="cu-avatar round lg" style="background-image:url({{userMap[item.userId].avatarUrl}});"></view>
         <view class="content">
-          <view class="text-blue">
-            <text class="text-cut">{{userMap[item.userId] && userMap[item.userId].nickname}}</text>
+          <view class="text-main">
+            <text class="text-cut text-user">{{userMap[item.userId] && userMap[item.userId].nickname}}</text>
           </view>
           <view class="text-gray text-sm flex">
             <text class="text-cut latest-chat" wx:if="{{item.latestChat.type == 'text'}}">{{item.latestChat.content}}</text>
@@ -92,4 +95,6 @@
     </view>
   </view>
   
+</view>
+
 </view>

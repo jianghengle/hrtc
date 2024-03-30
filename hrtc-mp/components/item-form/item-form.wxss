@@ -5,3 +5,15 @@
 .menu-icon {
   float: right;
 }
+
+.dark-bg {
+  background-color: #1b1b1b!important;
+}
+
+.border-top-gray {
+  border-top-color: #333333!important;
+}
+
+.text-main {
+  color: #d8d8d8!important;
+}

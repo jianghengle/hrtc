@@ -1,16 +1,18 @@
-<cu-custom bgColor="bg-gradual-blue">
+<cu-custom bgColor="bg-black">
   <view slot="content">团购</view>
 </cu-custom>
 
 <tabbar selected="0"></tabbar>
 
-<view class="padding" wx:if="{{user && user.nicknameNotSet}}">
-  <view class="padding bg-grey radius">
-    <text class="cuIcon-warn lg"></text>
-    请完善个人资料以使用所有功能
+<view class="page-bg">
+  <view class="padding" wx:if="{{user && user.nicknameNotSet}}">
+    <view class="padding bg-black radius">
+      <text class="cuIcon-warn lg"></text>
+      请完善个人资料以使用所有功能
+    </view>
   </view>
-</view>
 
-<view v-if="{{eventType}}">
-  <events user="{{user}}" eventType="{{eventType}}"></events>
+  <view v-if="{{eventType}}">
+    <events user="{{user}}" eventType="{{eventType}}"></events>
+  </view>
 </view>

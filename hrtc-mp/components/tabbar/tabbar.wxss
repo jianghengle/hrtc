@@ -1,2 +1,6 @@
 /* components/tabbar/tabbar.wxss */
 @import "../../colorui/main.wxss";
+
+.foot-bg {
+  background-color: rgba(27, 27, 27, 0.95);
+}

@@ -6,3 +6,7 @@
 .event-date {
   margin-right: 15px;
 }
+
+.border-top-gray {
+  border-top: 1rpx solid #333333;
+}

@@ -1,16 +1,16 @@
 <!--pages/thread/thread.wxml-->
-<cu-custom bgColor="bg-gradual-blue" isBack="true">
+<cu-custom bgColor="bg-black" isBack="true">
   <view slot="content">{{event ? event.title : '对话'}}</view>
 </cu-custom>
 
 <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" scroll-with-animation="true"
-  style="{{'height:calc(100vh - 80px - ' + keyboardHeight + 'px)'}}">
-  <view class="cu-bar bg-white solid-bottom">
+  style="{{'height:calc(100vh - 80px - ' + keyboardHeight + 'px)'}}" class="thread-bg">
+  <view class="cu-bar bg-white solid-bottom card-bg">
     <view class="action">
-      <text class="cuIcon-title text-{{eventOutdated ? 'red' : 'blue'}}" bindtap="getEvent">
-        <text wx:if="{{!isOwner}}" class="cuIcon-refresh text-grey"></text>
+      <text class="cuIcon-title text-{{eventOutdated ? 'red' : 'yellow'}}" bindtap="getEvent">
+        <text wx:if="{{!isOwner}}" class="cuIcon-refresh"></text>
       </text>
-      <text class="text-cut text-bold">{{event.title}}</text>
+      <text class="text-cut text-main">{{event.title}}</text>
     </view>
     <view class="action" bindtap="toggleEvent">
       <text class="{{'cuIcon-' + (eventOpen ? 'fold' : 'unfold') + ' text-blue'}}"></text>
@@ -18,12 +18,12 @@
   </view>
 
   <view class="cu-card dynamic no-card" wx:if="{{eventOpen}}">
-    <view class="cu-item shadow">
+    <view class="cu-item shadow card-bg">
       <view class="cu-list menu-avatar title-padding">
-        <view class="cu-item">
+        <view class="cu-item card-bg">
           <view class="cu-avatar round lg" style="{{'background-image:url(' + event.owner.avatarUrl + ');'}}"></view>
           <view class="content flex-sub">
-            <view>{{event.owner.nickname}}</view>
+            <view class="text-user">{{event.owner.nickname}}</view>
             <view class="text-gray text-sm flex justify-between">
               {{event.pubDate}}
             </view>
@@ -32,15 +32,15 @@
       </view>
       <view class="text-content event-content event-padding">
         <view class="text-bold">
-          <view class="{{'cu-tag radius event-tag bg-' + event.tag.color}}">{{event.tag.text}}</view>
-          <view class="text-bold color-gray">{{event.title}}</view>
+          <view class="{{'cu-tag radius event-tag bg-yellow'}}">{{event.tag.text}}</view>
+          <view class="text-main">{{event.title}}</view>
         </view>
-        <view class="description color-gray">{{event.description}}</view>
+        <view class="description text-gray">{{event.description}}</view>
       </view>
 
       <view class="padding event-padding" wx:for="{{event.items}}" wx:key="index">
-        <view wx:if="{{item.title}}" class="text-bold color-gray">{{item.title}}</view>
-        <view wx:if="{{item.text}}" class="description color-gray">{{item.text}}</view>
+        <view wx:if="{{item.title}}" class="text-main">{{item.title}}</view>
+        <view wx:if="{{item.text}}" class="description text-gray">{{item.text}}</view>
         <images initialImages="{{item.images}}" imageMap="{{imageMap}}" allImageKeys="{{imageKeys}}" editable="{{false}}"/>
       </view>
 
@@ -63,7 +63,7 @@
 
 
 <form bindsubmit="submitTextChat">
-  <view class="cu-bar foot input input-bottom-bar" style="{{'bottom:' + keyboardHeight + 'px'}}">
+  <view class="cu-bar foot input input-bottom-bar card-bg" style="{{'bottom:' + keyboardHeight + 'px'}}">
     <view class="action" bindtouchstart="startRecord" bindtouchend="stopRecord">
       <text class="cuIcon-sound text-grey"></text>
     </view>

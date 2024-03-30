@@ -1,20 +1,20 @@
 <!--pages/me/me.wxml-->
-<cu-custom bgColor="bg-gradual-blue">
+<cu-custom bgColor="bg-black">
   <view slot="content">华人同城</view>
 </cu-custom>
 
 <tabbar selected="3"></tabbar>
 
-<view class="page-container">
+<view class="page-container page-bg" style="padding-top:15px;">
 
-  <view wx:if="{{userId}}" class="margin padding-xl bg-white radius shadow shadow-lg">
+  <view wx:if="{{userId}}" class="margin padding-xl bg-white radius shadow shadow-lg card-bg" style="margin-top:0px!important;">
 
     <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
       <image class="avatar" src="{{avatarUrl}}"></image>
     </button>
 
-    <view class="cu-form-group">
-      <input class="nickname-input" type="nickname" placeholder="请输入昵称" model:value="{{nickname}}"></input>
+    <view class="cu-form-group card-bg">
+      <input class="nickname-input text-main" type="nickname" placeholder="请输入昵称" model:value="{{nickname}}"></input>
     </view>
 
     <view class="map-container">
@@ -26,16 +26,16 @@
     </view>
 
     <view class="padding flex flex-direction">
-      <button class="cu-btn block bg-blue margin-tb-sm lg" bindtap="submit">提交</button>
+      <button class="cu-btn block bg-yellow margin-tb-sm lg" bindtap="submit">提交</button>
     </view>
 
   </view>
 
-  <view class="cu-list menu sm-border card-menu margin-top bg-white radius shadow shadow-lg">
-    <view class="cu-item arrow" bindtap="openPosts">
+  <view class="cu-list menu sm-border card-menu margin-top bg-white radius shadow shadow-lg card-bg">
+    <view class="cu-item arrow card-bg" bindtap="openPosts">
       <view class="content">
-        <text class="cuIcon-post text-black"></text>
-        <text class="text-black">我的发布</text>
+        <text class="cuIcon-post text-main"></text>
+        <text class="text-main">我的发布</text>
       </view>
     </view>
   </view>

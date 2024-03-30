@@ -175,7 +175,9 @@ Page({
     this.setData(
       {keyboardHeight: e.detail.height}
     , () => {
-      that.scrollToBottom()
+      if (e.detail.height) {
+        that.scrollToBottom()
+      }
     })
   },
 

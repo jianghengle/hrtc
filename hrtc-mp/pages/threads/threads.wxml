@@ -1,31 +1,32 @@
 <!--pages/threads/threads.wxml-->
-<cu-custom bgColor="bg-gradual-blue">
+<cu-custom bgColor="bg-black">
   <view slot="content">对话</view>
 </cu-custom>
 
 <tabbar selected="2"></tabbar>
 
-<view wx:if="{{eventIds && ownedEventMap}}" class="threads-container">
+<view wx:if="{{eventIds && ownedEventMap}}" class="threads-container page-bg">
   <view class="padding" wx:if="{{!eventIds.length}}">
-    <view class="padding bg-grey radius">
+    <view class="padding bg-black radius">
       没有找到任何聊天记录。
     </view>
   </view>
   <view wx:for="{{eventIds}}" wx:for-index="idx" wx:for-item="eventId" wx:key="idx">
-    <view class="cu-bar bg-white solid-bottom margin-top">
-      <view class="action">
+    <view style="height:10px"></view>
+    <view class="cu-bar bg-white solid-bottom card-bg">
+      <view class="action text-main">
         <text class="cuIcon-title text-{{ownedEventMap[eventId] ? 'orange' : 'blue'}}"></text>
         <text wx:if="{{eventMap[eventId]}}" data-event-id="{{eventId}}" bind:tap="openEvent">{{eventMap[eventId].title}}</text>
       </view>
       <view class="text-gray text-sm event-date">{{eventMap[eventId].pubDate}}</view>
     </view>
     <view class="cu-list menu-avatar">
-      <view class="cu-item" wx:for="{{eventThreadsMap[eventId]}}" wx:for-item="thread"
+      <view class="cu-item card-bg" wx:for="{{eventThreadsMap[eventId]}}" wx:for-item="thread"
         wx:for-index="index" wx:key="index" data-thread="{{thread}}" bindtap="openThread">
         <view class="cu-avatar round lg" style="background-image:url({{userMap[thread.latestChat.userId].avatarUrl}});"></view>
         <view class="content">
           <view>
-            <text class="text-cut">{{userMap[thread.latestChat.userId].nickname}}</text>
+            <text class="text-cut text-user">{{userMap[thread.latestChat.userId].nickname}}</text>
           </view>
           <view class="text-gray text-sm flex">
             <text class="text-cut latest-chat" wx:if="{{thread.latestChat.type == 'text'}}">{{thread.latestChat.content}}</text>

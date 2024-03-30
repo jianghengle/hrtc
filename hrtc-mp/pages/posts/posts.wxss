@@ -8,6 +8,10 @@
   margin-right: 10px;
 }
 
+.my-btn {
+  margin-right: 10px
+}
+
 .edit-icon {
   float: right;
 }

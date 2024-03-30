@@ -17,10 +17,7 @@ Page({
    * Lifecycle function--Called when page load
    */
   onLoad(options) {
-    var that = this
-    waitForUser(app, function(){
-      that.getEvents()
-    })
+
   },
 
   getEvents() {
@@ -57,6 +54,14 @@ Page({
       url: '/pages/edit-event/edit-event',
     })
   },
+  addEvent (e) {
+    var eventType = e.currentTarget.dataset.eventType
+    app.globalData.currentEventType = eventType
+    app.globalData.currentEventId = null
+    wx.navigateTo({
+      url: '/pages/edit-event/edit-event',
+    })
+  },
 
   /**
    * Lifecycle function--Called when page is initially rendered
@@ -69,7 +74,11 @@ Page({
    * Lifecycle function--Called when page show
    */
   onShow() {
-
+    console.log('onShow')
+    var that = this
+    waitForUser(app, function(){
+      that.getEvents()
+    })
   },
 
   /**

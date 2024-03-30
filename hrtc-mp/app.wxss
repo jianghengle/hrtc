@@ -1,2 +1,19 @@
 @import "colorui/main.wxss";
 @import "colorui/icon.wxss";
+
+.page-bg {
+  background-color: #111111!important;
+  min-height: 100vh;
+}
+
+.card-bg {
+  background-color: #1b1b1b!important;
+}
+
+.text-user {
+  color: #7e90aa!important;
+}
+
+.text-main {
+  color: #d8d8d8!important;
+}

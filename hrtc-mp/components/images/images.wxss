@@ -4,9 +4,28 @@
 
 .img-container {
   text-align: center;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 .editable-imgs {
   margin-top: 1px;
+}
+
+.dark-bg {
+  background-color: #1b1b1b!important;
+}
+
+.border-top-gray {
+  border-top: 1rpx solid #333333;
+}
+
+.border-gray {
+  border-style: solid;
+  border-radius: 5px!important;
+  border-width: 2px;
+  border-color: #333333!important;
+}
+
+.text-main {
+  color: #d8d8d8!important;
 }

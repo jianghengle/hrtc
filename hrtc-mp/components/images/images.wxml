@@ -9,12 +9,12 @@
   </view>
 
   <view wx:else>
-    <view class="cu-bar bg-white editable-imgs">
-      <view class="action">
+    <view class="cu-bar bg-white editable-imgs dark-bg border-top-gray">
+      <view class="action text-grey">
         图片上传
       </view>
     </view>
-    <view class="cu-form-group">
+    <view class="cu-form-group dark-bg">
       <view class="grid col-4 grid-square flex-sub">
         <view class="bg-img" wx:for="{{images}}" wx:key="index" data-url="{{imageMap[item.key]}}">
           <image src='{{imageMap[item.key]}}' mode='aspectFit'></image>
@@ -22,7 +22,7 @@
             <text class="cuIcon-close"></text>
           </view>
         </view>
-        <view class="solids" bindtap="chooseImage">
+        <view class="border-gray" bindtap="chooseImage">
           <text class="cuIcon-cameraadd"></text>
         </view>
       </view>
