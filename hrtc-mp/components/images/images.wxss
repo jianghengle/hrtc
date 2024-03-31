@@ -29,3 +29,7 @@
 .text-main {
   color: #d8d8d8!important;
 }
+
+.my-radius {
+  border-radius: 20px;
+}

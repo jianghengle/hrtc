@@ -29,7 +29,7 @@
 <view class="padding">
   <button class="cu-btn lines-yellow" bindtap="addItem">
     <text class="cuIcon-add lg add-icon"></text>
-    <text>添加章节</text>
+    <text>添加产品</text>
   </button>
 </view>
 

@@ -19,8 +19,11 @@
     "getFuzzyLocation"
   ],
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#111111",
+    "backgroundColorTop": "#111111",
+    "backgroundColorBottom": "#111111",
+    "navigationBarBackgroundColor": "#111111",
     "navigationBarTitleText": "ColorUI",
     "navigationStyle": "custom",
     "navigationBarTextStyle": "white"

@@ -3,7 +3,7 @@
   <view wx:if="{{!editable}}">
     <view wx:for="{{images}}" wx:for-index="idx" wx:key="index" class="img-container">
       <image src="{{imageMap[item.key]}}" data-src="{{imageMap[item.key]}}" bindtap="previewImage"
-        class="radius" style="width:100%" mode="widthFix" show-menu-by-longpress="{{!editable}}">
+        class="my-radius" style="width:100%" mode="widthFix" show-menu-by-longpress="{{!editable}}">
       </image>
     </view>
   </view>

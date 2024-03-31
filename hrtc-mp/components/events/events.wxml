@@ -30,7 +30,7 @@
         </view>
       </view>
       <view class="text-content">
-        <view class="text-main">
+        <view class="text-lg text-main text-bold">
           <block>{{item.title}}</block>
         </view>
         <view class="text-cut text-gray">
@@ -38,7 +38,7 @@
         </view>
       </view>
       <view class="swiper-container">
-        <swiper wx:if="{{item.images && item.images.length}}" class="screen-swiper round-dot" indicator-dots="true">
+        <swiper wx:if="{{item.images && item.images.length}}" class="screen-swiper round-dot" indicator-dots="true" autoplay="true" interval="5000" duration="500">
           <swiper-item wx:for="{{item.images}}" wx:key="index" class="swiper-item">
             <image src="{{imageMap[item]}}" mode="aspectFill"></image>
           </swiper-item>

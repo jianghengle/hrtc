@@ -30,7 +30,7 @@
 }
 
 .swiper-item {
-  border-radius: 5px;
+  border-radius: 20px;
 }
 
 .text-user {

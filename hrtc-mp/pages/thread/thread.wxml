@@ -33,14 +33,22 @@
       <view class="text-content event-content event-padding">
         <view class="text-bold">
           <view class="{{'cu-tag radius event-tag bg-yellow'}}">{{event.tag.text}}</view>
-          <view class="text-main">{{event.title}}</view>
+          <view class="text-main text-lg text-bold">
+            <text user-select="{{true}}">{{event.title}}</text>
+          </view>
         </view>
-        <view class="description text-gray">{{event.description}}</view>
+        <view class="description text-gray">
+          <text user-select="{{true}}">{{event.description}}</text>
+        </view>
       </view>
 
       <view class="padding event-padding" wx:for="{{event.items}}" wx:key="index">
-        <view wx:if="{{item.title}}" class="text-main">{{item.title}}</view>
-        <view wx:if="{{item.text}}" class="description text-gray">{{item.text}}</view>
+        <view wx:if="{{item.title}}" class="text-main text-bold">
+          <text user-select="{{true}}">{{item.title}}</text>
+        </view>
+        <view wx:if="{{item.text}}" class="description text-gray">
+          <text user-select="{{true}}">{{item.text}}</text>
+        </view>
         <images initialImages="{{item.images}}" imageMap="{{imageMap}}" allImageKeys="{{imageKeys}}" editable="{{false}}"/>
       </view>
 
