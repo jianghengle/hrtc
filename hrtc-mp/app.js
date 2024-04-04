@@ -3,43 +3,57 @@ import { httpPost } from 'utils/util'
 
 App({
   onLaunch: function(options) {
-    console.log('onLaunch', options)
     for (const key in options.query) {
       this.globalData[key] = options.query[key]
     }
-    console.log('globalData', this.globalData)
-    // 登录
-    var that = this
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        const data = {
-          code: res.code
-        }
-        httpPost('/user/wx-login', data).then(resp => {
-          var user = resp.data
-          that.globalData.user = user
-        }).catch(err => {
-          console.log('wx-login failed', err)
-        })
-      }
-    })
-    
-    // 获取系统状态栏信息
-    wx.getSystemInfo({
-      success: e => {
-        this.globalData.StatusBar = e.statusBarHeight;
-        let capsule = wx.getMenuButtonBoundingClientRect();
-        if (capsule) {
-         	this.globalData.Custom = capsule;
-        	this.globalData.CustomBar = capsule.bottom + capsule.top - e.statusBarHeight;
-        } else {
-        	this.globalData.CustomBar = e.statusBarHeight + 50;
-        }
-      }
-    })
+    this.init()
   },
+  onShow: function(options) {
+    for (const key in options.query) {
+      this.globalData[key] = options.query[key]
+    }
+    this.init()
+  },
+
+  init () {
+    var that = this
+    if (!that.globalData.initialized) {
+      that.globalData.initialized = true
+
+      // 登录
+      wx.login({
+        success: res => {
+          // 发送 res.code 到后台换取 openId, sessionKey, unionId
+          const data = {
+            code: res.code
+          }
+          httpPost('/user/wx-login', data).then(resp => {
+            var user = resp.data
+            that.globalData.user = user
+          }).catch(err => {
+            console.log('wx-login failed', err)
+          })
+        }
+      })
+
+      // 获取系统状态栏信息
+      wx.getSystemInfo({
+        success: e => {
+          that.globalData.StatusBar = e.statusBarHeight;
+          let capsule = wx.getMenuButtonBoundingClientRect();
+          if (capsule) {
+            that.globalData.Custom = capsule;
+            that.globalData.CustomBar = capsule.bottom + capsule.top - e.statusBarHeight;
+          } else {
+            that.globalData.CustomBar = e.statusBarHeight + 50;
+          }
+        }
+      })
+    }
+  },
+
   globalData: {
+    initialized: false,
     user: null,
     currentEventId: null,
     currentEventType: null,

@@ -21,13 +21,13 @@ Page({
   },
   onShareAppMessage() {
     return {
-      title: '华人同城',
+      title: 'GroupGo',
       path: '/pages/index/index',
     }
   },
   onShareTimeline(){
     return {
-      title: '华人同城',
+      title: 'GroupGo',
     }
   },
 })

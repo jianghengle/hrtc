@@ -193,15 +193,15 @@ Page({
    */
   onShareAppMessage() {
     return {
-      title: this.event.title,
-      path: '/pages/event/event/currentEventId=' + app.globalData.currentEventId,
+      title: this.data.event.title,
+      path: '/pages/event/event?currentEventId=' + app.globalData.currentEventId,
     }
   },
 
   onShareTimeline() {
     return {
-      title: this.event.title,
-      query: {currentEventId: app.globalData.currentEventId},
+      title: this.data.event.title,
+      query: 'currentEventId=' + app.globalData.currentEventId,
     }
   },
 })
