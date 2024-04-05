@@ -16,6 +16,7 @@ Page({
     eventThreadsMap: null,
     userMap: {},
     eventMap: {},
+    hideTab: false,
   },
 
   /**
@@ -36,6 +37,7 @@ Page({
    * Lifecycle function--Called when page show
    */
   onShow() {
+    this.setData({hideTab: false})
     var that = this
     waitForUser(app, function(){
       that.setData({
@@ -128,6 +130,7 @@ Page({
     app.globalData.currentEvent = this.data.eventMap[thread.eventId]
     app.globalData.currentThreadId = thread.id
     app.globalData.userMap = this.data.userMap
+    this.setData({hideTab: true})
     wx.navigateTo({
       url: '/pages/thread/thread',
     })

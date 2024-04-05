@@ -1,4 +1,4 @@
-import { httpGet } from '../../utils/util'
+import { httpGet, waitForUser } from '../../utils/util'
 
 //获取应用实例
 const app = getApp()
@@ -11,6 +11,7 @@ Component({
    */
   properties: {
     selected: 0,
+    hideTab: false,
   },
 
   /**
@@ -22,7 +23,7 @@ Component({
         pagePath: "/pages/index/index",
         iconPath: "/images/tabbar/plugin.png",
         selectedIconPath: "/images/tabbar/plugin_cur.png",
-        text: "团购"
+        text: "同购"
       },
       {
         pagePath: "/pages/chefs/chefs",
@@ -45,6 +46,7 @@ Component({
       },
     ],
     threadsChecker: null,
+    lastHideTab: false,
   },
 
   /**
@@ -59,7 +61,6 @@ Component({
       })
     },
     checkThreads () {
-      console.log('check threads')
       if (!app.globalData.user) {
         return
       }
@@ -87,20 +88,30 @@ Component({
       this.setData({
         'list[2].tag': app.globalData.missingChats,
       })
-      if (!this.data.threadsChecker) {
-        var that = this
-        var threadsChecker = setInterval(() => {
-          that.checkThreads()
-        }, 60000)
-        that.setData({threadsChecker: threadsChecker})
-      }
+      var that = this
+      waitForUser(app, function(){
+        that.checkThreads()
+        if (!that.data.threadsChecker) {
+          var threadsChecker = setInterval(() => {
+            that.checkThreads()
+          }, 60000)
+          that.setData({threadsChecker: threadsChecker})
+        }
+      })
     },
     detached: function() {
-      console.log('tab detached')
       if (this.data.threadsChecker) {
         clearInterval(this.data.threadsChecker)
         this.setData({threadsChecker: null})
       }
+    },
+  },
+  observers: {
+    'hideTab': function(hideTab) {
+      if (this.data.lastHideTab && !hideTab) {
+        this.checkThreads()
+      }
+      this.setData({lastHideTab: hideTab})
     },
   },
 })

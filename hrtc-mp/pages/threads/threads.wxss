@@ -10,3 +10,7 @@
 .border-top-gray {
   border-top: 1rpx solid #333333;
 }
+
+.latest-chat {
+  height: 25px;
+}

@@ -3,7 +3,7 @@
   <view slot="content">对话</view>
 </cu-custom>
 
-<tabbar selected="2"></tabbar>
+<tabbar selected="2" hideTab="{{hideTab}}"></tabbar>
 
 <view wx:if="{{eventIds && ownedEventMap}}" class="threads-container page-bg">
   <view class="padding" wx:if="{{!eventIds.length}}">
@@ -21,7 +21,7 @@
       <view class="text-gray text-sm event-date">{{eventMap[eventId].pubDate}}</view>
     </view>
     <view class="cu-list menu-avatar">
-      <view class="cu-item card-bg" wx:for="{{eventThreadsMap[eventId]}}" wx:for-item="thread"
+      <view class="cu-item card-bg border-top-gray" wx:for="{{eventThreadsMap[eventId]}}" wx:for-item="thread"
         wx:for-index="index" wx:key="index" data-thread="{{thread}}" bindtap="openThread">
         <view class="cu-avatar round lg" style="background-image:url({{userMap[thread.latestChat.userId].avatarUrl}});"></view>
         <view class="content">

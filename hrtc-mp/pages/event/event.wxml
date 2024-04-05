@@ -1,5 +1,5 @@
 <cu-custom bgColor="bg-black" isBack="true">
-  <view slot="content">{{event ? event.title : '华人同城'}}</view>
+  <view slot="content">{{event ? event.title : '同城同购'}}</view>
 </cu-custom>
 
 <tabbar selected="-1"></tabbar>

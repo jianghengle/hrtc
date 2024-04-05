@@ -58,7 +58,7 @@ App({
     currentEventId: null,
     currentEventType: null,
     eventTypeMap: {
-      'groupBuy': {color: 'blue', text: '团购', addButton: '发起新团购'},
+      'groupBuy': {color: 'blue', text: '同购', addButton: '发起新团购'},
       'chef': {color: 'green', text: '私厨', addButton: '发布新私厨'},
     },
     currentEvent: null,

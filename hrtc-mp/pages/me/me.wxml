@@ -1,6 +1,6 @@
 <!--pages/me/me.wxml-->
 <cu-custom bgColor="bg-black">
-  <view slot="content">华人同城</view>
+  <view slot="content">同城同购</view>
 </cu-custom>
 
 <tabbar selected="3"></tabbar>
