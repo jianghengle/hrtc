@@ -23,10 +23,13 @@
         longitude="{{location.longitude}}"
         scale="10">
       </map>
+      <view class="padding text-center">
+        <button class="cu-btn round line-yellow" bindtap="checkAndGetLocation">获取当前位置</button>
+      </view>
     </view>
 
     <view class="padding flex flex-direction">
-      <button class="cu-btn block bg-yellow margin-tb-sm lg" bindtap="submit">提交</button>
+      <button class="cu-btn block bg-yellow margin-tb-sm lg" bindtap="submit">设置</button>
     </view>
 
   </view>

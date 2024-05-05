@@ -10,7 +10,7 @@ class ThreadModel(Model):
     EventIdGSI = ('eventIdGSI', 'eventId')
     EventOwnerIdGSI = ('eventOwnerIdGSI', 'eventOwnerId')
     UserIdGSI = ('userIdGSI', 'userId')
-    Fields = ['id', 'eventId', 'eventOwnerId', 'userId', 'chats', 'eventOwnerCount', 'userCount', 'createdAt', 'updatedAt']
+    Fields = ['id', 'eventId', 'eventOwnerId', 'userId', 'chats', 'note', 'eventOwnerCount', 'userCount', 'createdAt', 'updatedAt']
 
     def get_simple_data(self):
         data = self.data
@@ -60,6 +60,7 @@ class ThreadModel(Model):
             'eventOwnerId': event.ownerId,
             'userId': user.id,
             'chats': [chat],
+            'note': '',
             'eventOwnerCount': 0,
             'userCount': 0,
             'createdAt': timestamp,
@@ -89,3 +90,22 @@ class ThreadModel(Model):
             if thread.userCount < len(thread.chats):
                 data['userCount'] = len(thread.chats)
                 dynamo_service.update_item(table, 'id', id, data)
+
+    @staticmethod
+    def mark_deleted_for_event(event):
+        threads = ThreadModel.get_threads_by_event_id(event.id)
+        table = dynamo_service.get_table(ThreadModel.TableName)
+        timestamp = int(time.time()*1000)
+        for thread in threads:
+            data = {
+                'eventOwnerId': thread.eventOwnerId + '_deleted',
+                'userId': thread.userId + '_deleted',
+                'updatedAt': timestamp
+            }
+            dynamo_service.update_item(table, 'id', thread.id, data)
+
+    @staticmethod
+    def update_note(thread, note):
+        table = dynamo_service.get_table(ThreadModel.TableName)
+        data = {'note': note}
+        dynamo_service.update_item(table, 'id', thread.id, data)

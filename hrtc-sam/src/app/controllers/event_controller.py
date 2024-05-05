@@ -2,6 +2,7 @@ import requests
 import simplejson as json
 from ..models.event_model import EventModel
 from ..models.user_model import UserModel
+from ..models.thread_model import ThreadModel
 from .. import MyError
 
 def get_events_by_location_status_key(req, key):
@@ -54,3 +55,13 @@ def update_event(req):
     data['location'] = user.location
     event = EventModel.update(event, data)
     return event.data
+
+def delete_event(req):
+    user = req.user
+    data = req.body
+    event = EventModel.get_by_id(data['id'])
+    if user.id != event.ownerId:
+        raise MyError('Only owner can delete event!')
+    EventModel.mark_deleted(event)
+    ThreadModel.mark_deleted_for_event(event)
+    return {'deleted': True}

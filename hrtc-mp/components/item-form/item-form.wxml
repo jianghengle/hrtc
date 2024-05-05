@@ -3,13 +3,13 @@
   <view class="title text-grey">章节名称</view>
   <input class="text-main" model:value="{{title}}"></input>
   <view class="menu-icon" bindtap="openMenu">
-    <text class="cuIcon-moreandroid lg"></text>
+    <text class="cuIcon-moreandroid lg text-grey"></text>
   </view>
 </view>
 
 <view class="cu-form-group align-start dark-bg border-top-gray">
   <view class="title text-grey">章节描述</view>
-  <textarea class="text-main" auto-height="{{true}}" model:value="{{text}}" maxlength="{{1000}}"></textarea>
+  <textarea class="text-main my-textarea" auto-height="{{true}}" model:value="{{text}}" maxlength="{{1000}}"></textarea>
 </view>
 
 <images initialImages="{{images}}" imageMap="{{imageMap}}" editable="{{true}}"

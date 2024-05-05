@@ -29,6 +29,7 @@ Component({
     actionSheetFlowIndex: -1,
     showActionsheet: false,
     newImageMap: {},
+    deleteModalOn: false,
   },
 
   /**
@@ -53,6 +54,37 @@ Component({
       } else {
         this.createEvent(data)
       }
+    },
+    delete () {
+      this.setData({deleteModalOn: true})
+    },
+    hideDeleteModal () {
+      this.setData({deleteModalOn: false})
+    },
+    deleteEvent () {
+      this.setData({deleteModalOn: false})
+      wx.showLoading({
+        title: '删除中',
+      })
+      var message = {id: this.properties.event.id}
+      httpPost('/event/delete-event', message, app).then(resp => {
+        wx.hideLoading()
+        wx.showToast({
+          title: '删除成功',
+          icon: 'success',
+          duration: 2000
+        })
+        setTimeout(() => {
+          wx.navigateBack()
+        }, 2000)
+      }).catch(err => {
+        wx.hideLoading()
+        wx.showToast({
+          title: '删除失败',
+          icon: 'error',
+          duration: 2000
+        })
+      })
     },
     updateEvent (data) {
       wx.showLoading({

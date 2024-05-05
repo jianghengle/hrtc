@@ -23,10 +23,12 @@
     <view class="cu-list menu-avatar">
       <view class="cu-item card-bg border-top-gray" wx:for="{{eventThreadsMap[eventId]}}" wx:for-item="thread"
         wx:for-index="index" wx:key="index" data-thread="{{thread}}" bindtap="openThread">
-        <view class="cu-avatar round lg" style="background-image:url({{userMap[thread.latestChat.userId].avatarUrl}});"></view>
+        <view wx:if="{{ownedEventMap[eventId]}}" class="cu-avatar round lg" style="background-image:url({{userMap[thread.userId].avatarUrl}});"></view>
+        <view wx:if="{{!ownedEventMap[eventId]}}" class="cu-avatar round lg" style="background-image:url({{userMap[thread.latestChat.userId].avatarUrl}});"></view>
         <view class="content">
           <view>
-            <text class="text-cut text-user">{{userMap[thread.latestChat.userId].nickname}}</text>
+            <text wx:if="{{ownedEventMap[eventId]}}"  class="text-cut text-user">{{userMap[thread.userId].nickname}}</text>
+            <text wx:if="{{!ownedEventMap[eventId]}}"  class="text-cut text-user">{{userMap[thread.latestChat.userId].nickname}}</text>
           </view>
           <view class="text-gray text-sm flex">
             <text class="text-cut latest-chat" wx:if="{{thread.latestChat.type == 'text'}}">{{thread.latestChat.content}}</text>

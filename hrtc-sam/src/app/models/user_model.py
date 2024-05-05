@@ -12,10 +12,19 @@ from decimal import Decimal
 DEFAULT_NICKNAME = '微信用户'
 DEFAULT_AVATAR_URL = 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132'
 DEFAULT_LOCATION = {
-    "latitude": Decimal(str('43.651070')),
-    "longitude": Decimal(str(-79.347015))
+    "latitude": Decimal('43.651070'),
+    "longitude": Decimal('-79.347015')
 }
 S3_BUCKET = 'hrtc-s3-bucket'
+
+def make_location(l):
+    return {
+        'latitude': Decimal(str(l['latitude'])),
+        'longitude': Decimal(str(l['longitude']))
+    }
+
+def is_same_location(l1, l2):
+    return l1['latitude'] == l2['latitude'] and l1['longitude'] == l2['longitude']
 
 class UserModel(Model):
     TableName = 'HrtcUsers'
@@ -66,12 +75,13 @@ class UserModel(Model):
         return UserModel(items[0])
 
     @staticmethod
-    def create_by_openid(openid):
+    def create_by_openid(openid, event=None):
         table = dynamo_service.get_table(UserModel.TableName)
         id = str(uuid.uuid4())
         alphabet = string.ascii_letters + string.digits
         token = ''.join(secrets.choice(alphabet) for i in range(64))
         timestamp = int(time.time()*1000)
+        location = make_location(event.location) if event else DEFAULT_LOCATION
         data = {
             'id': id,
             'openid': openid,
@@ -80,7 +90,7 @@ class UserModel(Model):
                 'source': 'url',
                 'url': DEFAULT_AVATAR_URL,
             },
-            'location': DEFAULT_LOCATION,
+            'location': location,
             'token': token,
             'createdAt': timestamp,
             'updatedAt': timestamp,
@@ -97,3 +107,11 @@ class UserModel(Model):
         if item:
             return UserModel(item)
         return None
+
+    @staticmethod
+    def check_to_update_location(user, event):
+        user_loc = make_location(user.location)
+        event_loc = make_location(event.location)
+        if is_same_location(user_loc, DEFAULT_LOCATION) and (not is_same_location(event_loc, DEFAULT_LOCATION)):
+            return user.update_user({'location': event_loc})
+        return user

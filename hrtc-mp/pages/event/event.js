@@ -16,8 +16,6 @@ Page({
     isOwner: false,
     eventThreads: null,
     userMap: {},
-    timestampPuller: null,
-    eventOutdated: false,
   },
 
   onShow(options) {
@@ -29,7 +27,6 @@ Page({
       })
       that.getEvent()
       that.getEventThreads()
-
     })
   },
 
@@ -49,7 +46,6 @@ Page({
       e.viewCount = e.views ? e.views.length : 0
       that.setData({
         event: e,
-        eventOutdated: false,
         isOwner: e.ownerId == app.globalData.user.id,
         userMap: {...that.data.userMap, [e.ownerId]: e.owner}
       })
@@ -65,9 +61,6 @@ Page({
       }
       var imageKeys = images.map(i => i.key)
       that.setData({imageKeys: imageKeys})
-      if (e.ownerId != app.globalData.user.id) {
-        that.startPullingTimestamp()
-      }
       wx.hideLoading()
     }).catch(err => {
       console.log('get event failed', err)
@@ -81,7 +74,7 @@ Page({
       var userIds = new Set()
       var threads = resp.data.threads.map(t => {
         t.latestChat.timeLabel = formatTime(t.latestChat.timestamp)
-        t.missingCount = that.data.isOwner ? (t.chatCount - t.eventOwnerCount) : (t.chatCount - t.userCount);
+        t.missingCount = t.eventOwnerId == app.globalData.user.id ? (t.chatCount - t.eventOwnerCount) : (t.chatCount - t.userCount);
         userIds.add(t.userId)
         userIds.add(t.eventOwnerId)
         return t
@@ -126,31 +119,10 @@ Page({
     })
   },
 
-  getEventTimestamp () {
-    var that = this
-    httpGet('/event/get-event-timestamp/' + that.data.event.id, app).then(resp => {
-      var timestamp = resp.data.timestamp
-      if (timestamp > that.data.event.updatedAt) {
-        that.setData({eventOutdated: true})
-      }
+  editEvent () {
+    wx.navigateTo({
+      url: '/pages/edit-event/edit-event',
     })
-  },
-
-  startPullingTimestamp () {
-    if (!this.data.timestampPuller) {
-      var that = this
-      var timestampPuller = setInterval(() => {
-        that.getEventTimestamp()
-      }, 30000)
-      that.setData({timestampPuller: timestampPuller})
-    }
-  },
-
-  stopPullingTimestamp () {
-    if (this.data.timestampPuller) {
-      clearInterval(this.data.timestampPuller)
-      this.setData({timestampPuller: null})
-    }
   },
 
   /**
@@ -164,21 +136,23 @@ Page({
    * Lifecycle function--Called when page hide
    */
   onHide() {
-    this.stopPullingTimestamp()
+
   },
 
   /**
    * Lifecycle function--Called when page unload
    */
   onUnload() {
-    this.stopPullingTimestamp()
+
   },
 
   /**
    * Page event handler function--Called when user drop down
    */
   onPullDownRefresh() {
-
+    wx.stopPullDownRefresh()
+    this.getEvent()
+    this.getEventThreads()
   },
 
   /**

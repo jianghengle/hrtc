@@ -2,5 +2,6 @@
   "usingComponents": {
     "images": "../../components/images/images",
     "chat": "../../components/chat/chat"
-  }
+  },
+  "enablePullDownRefresh": true
 }

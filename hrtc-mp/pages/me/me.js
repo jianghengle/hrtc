@@ -48,9 +48,6 @@ Page({
         avatarUrl: app.globalData.user.avatarUrl,
         location: app.globalData.user.location,
       })
-      if (nickname == defaultNickname) {
-        that.checkAndGetLocation()
-      }
     })
   },
 
@@ -88,7 +85,6 @@ Page({
   },
 
   mapCenterChanged (event) {
-    console.log('mapCenterChanged', event)
     if (event.causedBy == 'drag' && event.type == 'end') {
       var center = event.detail.centerLocation
       this.setData({location: center})
@@ -96,15 +92,16 @@ Page({
   },
 
   submit() {
-    if (!this.data.nickname) {
+    if (!this.data.nickname.trim()) {
       wx.showToast({
         title: '请输入昵称',
         icon: 'error',
         duration: 2000
       })
+      return
     }
     const data = {
-      nickname: this.data.nickname,
+      nickname: this.data.nickname.trim(),
       location: this.data.location,
     }
     if (!this.data.avatarChanged) {

@@ -74,6 +74,19 @@ class EventModel(Model):
         item = dynamo_service.get_item(table, 'id', id)
         return EventModel(item)
 
+    @staticmethod
+    def mark_deleted(event):
+        table = dynamo_service.get_table(EventModel.TableName)
+        id = event.id
+        data = {
+            'ownerId': event.ownerId + '_deleted',
+            'status': 'deleted',
+            'locationStatusKey': 'deleted',
+        }
+        timestamp = int(time.time()*1000)
+        data['updatedAt'] = timestamp
+        dynamo_service.update_item(table, 'id', id, data)
+
 
 def make_location_status_key(location, status):
     lat = decimal_to_int_str(location['latitude'])

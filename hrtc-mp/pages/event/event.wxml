@@ -11,10 +11,9 @@
     <view class="cu-item shadow card-bg">
       <view class="cu-list menu-avatar title-padding">
         <view class="cu-item card-bg">
-          <view wx:if="{{!isOwner}}" class="text-grey text-xl text-right padding" style="z-index:100;" bindtap="getEvent">
-            <text class="cuIcon-title text-red refresh-badge" wx:if="{{eventOutdated}}"></text>
-            <text class="cuIcon-refresh margin-lr-xs"></text>
-          </view>
+          <button wx:if="{{isOwner}}" class="cu-btn line-yellow" style="z-index:100;" bind:tap="editEvent">
+            <text style="font-weight: normal;">编辑</text>
+          </button>
           <view class="cu-avatar round lg" style="{{'background-image:url(' + event.owner.avatarUrl + ');'}}"></view>
           <view class="content flex-sub">
             <view class="text-user">{{event.owner.nickname}}</view>

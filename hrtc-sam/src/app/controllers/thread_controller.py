@@ -70,3 +70,14 @@ def get_new_chats(req):
         'chatCount': chat_count,
         'newChats': new_chats,
     }
+
+def update_note(req):
+    user = req.user
+    data = req.body
+    thread_id = data['threadId']
+    note = data['note']
+    thread = ThreadModel.get_by_id(thread_id)
+    if user.id != thread.eventOwnerId:
+        raise MyError('Only owner can update note!')
+    ThreadModel.update_note(thread, note)
+    return {'ok': True}

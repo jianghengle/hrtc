@@ -2,6 +2,7 @@ import os
 import requests
 import simplejson as json
 from ..models.user_model import UserModel
+from ..models.event_model import EventModel
 from .. import MyError
 
 
@@ -24,8 +25,12 @@ def wx_login(req):
     r = requests.get('https://api.weixin.qq.com/sns/jscode2session', params=params)
     openid = json.loads(r.text)['openid']
     user = UserModel.get_by_openid(openid)
+    event_id = req.body.get('query', {}).get('currentEventId', None)
+    event = EventModel.get_by_id(event_id) if event_id else None
     if not user:
-        user = UserModel.create_by_openid(openid)
+        user = UserModel.create_by_openid(openid, event)
+    elif event:
+        user = UserModel.check_to_update_location(user, event)
     user_data = user.get_info_data()
     user_data['token'] = user.token
     return user_data

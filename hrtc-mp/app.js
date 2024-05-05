@@ -12,10 +12,10 @@ App({
     for (const key in options.query) {
       this.globalData[key] = options.query[key]
     }
-    this.init()
+    this.init(options.query)
   },
 
-  init () {
+  init (query) {
     var that = this
     if (!that.globalData.initialized) {
       that.globalData.initialized = true
@@ -25,7 +25,8 @@ App({
         success: res => {
           // 发送 res.code 到后台换取 openId, sessionKey, unionId
           const data = {
-            code: res.code
+            code: res.code,
+            query: query,
           }
           httpPost('/user/wx-login', data).then(resp => {
             var user = resp.data

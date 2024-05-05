@@ -59,3 +59,41 @@
 .thread-bg {
   background-color: #111111!important;
 }
+
+.fold-btn {
+  margin-right: 0px!important;
+  margin-left: 0px!important;
+  padding-right: 5px!important;
+  padding-left: 20rpx!important;
+}
+
+.fold-btn-text {
+  font-size: 14px!important;
+}
+
+.my-foot-bar {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  z-index: 1024;
+  box-shadow: 0 -1rpx 6rpx rgba(0, 0, 0, 0.1);
+}
+
+.my-chat-input-bar {
+  padding-right: 20rpx;
+  display: flex;
+  align-items: center;
+  min-height: 100rpx;
+  justify-content: space-between;
+}
+
+.my-note-bar {
+  padding-top: 20rpx;
+  padding-left: 20rpx;
+  justify-content: start;
+}
+
+.my-note-input {
+  text-align: left;
+  min-height: 100rpx;
+}

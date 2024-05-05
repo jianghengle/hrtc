@@ -46,9 +46,3 @@
   max-height: 25px;
 }
 
-.refresh-badge {
-  float: right;
-  position: relative;
-  top: -5px;
-  right: 5px;
-}

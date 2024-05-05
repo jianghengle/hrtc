@@ -1,4 +1,5 @@
 const server = 'https://bzb752uzy5.execute-api.us-west-2.amazonaws.com/Prod'
+//const server = 'http://127.0.0.1:3000'
 
 const formatTime = timestamp => {
   var date = new Date(timestamp)
@@ -35,14 +36,6 @@ const waitForUser = (app, callback) => {
     setTimeout(function () {
       waitForUser(app, callback)
     }, 1000)
-  }
-}
-
-const checkUser = user => {
-  if (user.nickname == '微信用户') {
-    wx.redirectTo({
-      url: '/pages/me/me',
-    })
   }
 }
 
@@ -161,7 +154,6 @@ module.exports = {
   formatDate: formatDate,
   formatDateShort: formatDateShort,
   waitForUser: waitForUser,
-  checkUser: checkUser,
   httpGet: httpGet,
   httpPost: httpPost,
   uploadFile: uploadFile,

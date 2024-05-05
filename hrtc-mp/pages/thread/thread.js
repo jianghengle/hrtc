@@ -27,9 +27,10 @@ Page({
     chatImageKeys: [],
     recording: false,
     chatPuller: null,
-    timestampPuller: null,
-    eventOutdated: false,
     keyboardHeight: 0,
+    showMoreInputs: false,
+    noteModalOpened: false,
+    noteText: '',
   },
 
   /**
@@ -69,6 +70,8 @@ Page({
           chats: chats,
           chatCount: chatCount,
           chatImageKeys: chatImageKeys,
+          noteText: thread.note,
+          showMoreInputs: Boolean(thread.note),
         })
         that.scrollToBottom()
         that.startPullingChats()
@@ -82,9 +85,6 @@ Page({
         console.log('get thread failed', err)
         wx.hideLoading()
       })
-    }
-    if (app.globalData.currentEvent.ownerId != app.globalData.user.id) {
-      this.startPullingTimestamp()
     }
   },
 
@@ -344,33 +344,6 @@ Page({
     wx.hideLoading()
   },
 
-  getEventTimestamp () {
-    var that = this
-    httpGet('/event/get-event-timestamp/' + that.data.event.id, app).then(resp => {
-      var timestamp = resp.data.timestamp
-      if (timestamp > that.data.event.updatedAt) {
-        that.setData({eventOutdated: true})
-      }
-    })
-  },
-
-  startPullingTimestamp () {
-    if (!this.data.timestampPuller) {
-      var that = this
-      var timestampPuller = setInterval(() => {
-        that.getEventTimestamp()
-      }, 30000)
-      that.setData({timestampPuller: timestampPuller})
-    }
-  },
-
-  stopPullingTimestamp () {
-    if (this.data.timestampPuller) {
-      clearInterval(this.data.timestampPuller)
-      this.setData({timestampPuller: null})
-    }
-  },
-
   getEvent () {
     var that = this
     httpGet('/event/get-event/' + app.globalData.currentEventId, app).then(resp => {
@@ -380,12 +353,32 @@ Page({
       e.viewCount = e.views ? e.views.length : 0
       that.setData({
         event: e,
-        eventOutdated: false,
       })
       if (that.data.eventOpen) {
         that.getImages()
       }
     })
+  },
+
+  toggleMoreInputs () {
+    var newShowMoreInputs = !this.data.showMoreInputs
+    this.setData({showMoreInputs: newShowMoreInputs})
+  },
+
+  openNoteModal () {
+    if (this.data.isOwner) {
+      this.setData({noteModalOpened: true})
+    }
+  },
+
+  hideNoteModal () {
+    this.setData({noteModalOpened: false})
+  },
+
+  updateNote () {
+    var data = {threadId: this.data.threadId, note: this.data.noteText}
+    httpPost('/thread/update-note', data, app)
+    this.setData({noteModalOpened: false})
   },
 
   /**
@@ -414,14 +407,14 @@ Page({
    */
   onUnload() {
     this.stopPullingChats()
-    this.stopPullingTimestamp()
   },
 
   /**
    * Page event handler function--Called when user drop down
    */
   onPullDownRefresh() {
-
+    wx.stopPullDownRefresh()
+    this.getEvent()
   },
 
   /**

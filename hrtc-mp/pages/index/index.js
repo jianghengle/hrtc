@@ -1,5 +1,5 @@
 //index.js
-import { waitForUser, checkUser } from '../../utils/util'
+import { waitForUser } from '../../utils/util'
 
 //获取应用实例
 const app = getApp()
@@ -12,7 +12,6 @@ Page({
   onShow() {
     var that = this
     waitForUser(app, function(){
-      checkUser(app.globalData.user)
       that.setData({
         user: app.globalData.user,
         eventType: 'groupBuy',
