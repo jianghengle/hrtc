@@ -1,5 +1,5 @@
 // pages/me/me.js
-import { waitForUser, httpGet, httpPost, uploadFile, formatDate } from '../../utils/util' 
+import { waitForUser, httpGet, httpPost, uploadFile, formatDate } from '../../utils/utils'
 
 const app = getApp()
 const defaultNickname = '微信用户'

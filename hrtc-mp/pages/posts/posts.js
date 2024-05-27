@@ -1,5 +1,5 @@
 // pages/posts/posts.js
-import { formatDate, waitForUser, httpGet, httpPost } from '../../utils/util'
+import { formatDate, waitForUser, httpGet, httpPost } from '../../utils/utils'
 
 //获取应用实例
 const app = getApp()

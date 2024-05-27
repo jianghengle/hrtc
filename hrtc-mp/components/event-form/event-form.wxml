@@ -13,7 +13,7 @@
 </view>
 
 <view class="cu-form-group dark-bg border-top-gray">
-  <view class="title text-grey">公开</view>
+  <view class="title text-grey">开放</view>
   <switch model:checked="{{open}}"></switch>
 </view>
 

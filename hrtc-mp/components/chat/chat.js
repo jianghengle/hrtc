@@ -1,5 +1,5 @@
 // components/chat/chat.js
-import { httpPost } from '../../utils/util'
+import { httpPost } from '../../utils/utils'
 
 const app = getApp()
 const audioManager = wx.getBackgroundAudioManager()

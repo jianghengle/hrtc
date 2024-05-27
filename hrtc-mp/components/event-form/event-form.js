@@ -1,5 +1,5 @@
 // components/event-form/event-form.js
-import { httpPost, uploadFile } from '../../utils/util'
+import { httpPost, uploadFile, generateUID } from '../../utils/utils'
 
 const app = getApp()
 
@@ -147,6 +147,7 @@ Component({
     addItem () {
       var newItems = this.data.items.slice()
       newItems.push({
+        id: generateUID(),
         title: '',
         text: '',
         images: [],

@@ -10,6 +10,16 @@ const formatTime = timestamp => {
   return month + '月' + day + '日 ' +  hour + ':' + minute
 }
 
+const formatTimeLong = timestamp => {
+  var date = new Date(timestamp)
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours() < 10 ? ('0' + date.getHours()) : date.getHours()
+  const minute = date.getMinutes() < 10 ? ('0' + date.getMinutes()) : date.getMinutes()
+  return year + '年' + month + '月' + day + '日 ' +  hour + ':' + minute
+}
+
 const formatDate = timestamp => {
   var date = new Date(timestamp)
   const year = date.getFullYear()
@@ -23,6 +33,18 @@ const formatDateShort = timestamp => {
   const month = date.getMonth() + 1
   const day = date.getDate()
   return month + '月' + day + '日'
+}
+
+function formatPrice (value) {
+  if (!value) {
+    value = 0
+  }
+  value = parseFloat(value)
+  return '$' + value.toLocaleString('en-US', {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+    useGrouping: false
+  })
 }
 
 const waitForUser = (app, callback) => {
@@ -149,8 +171,19 @@ function generateUUID() { // Public Domain/MIT
   });
 }
 
+function generateUID() {
+  // I generate the UID from two parts here 
+  // to ensure the random number provide enough bits.
+  var firstPart = (Math.random() * 46656) | 0;
+  var secondPart = (Math.random() * 46656) | 0;
+  firstPart = ("000" + firstPart.toString(36)).slice(-3);
+  secondPart = ("000" + secondPart.toString(36)).slice(-3);
+  return firstPart + secondPart;
+}
+
 module.exports = {
   formatTime: formatTime,
+  formatTimeLong: formatTimeLong,
   formatDate: formatDate,
   formatDateShort: formatDateShort,
   waitForUser: waitForUser,
@@ -159,4 +192,6 @@ module.exports = {
   uploadFile: uploadFile,
   downloadFile: downloadFile,
   generateUUID: generateUUID,
+  generateUID: generateUID,
+  formatPrice: formatPrice,
 }

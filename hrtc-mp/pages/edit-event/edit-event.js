@@ -1,5 +1,5 @@
 // pages/edit-event/edit-event.js
-import { formatDate, waitForUser, httpGet, httpPost } from '../../utils/util' 
+import { formatDate, waitForUser, httpGet, httpPost } from '../../utils/utils'
 
 const app = getApp()
 

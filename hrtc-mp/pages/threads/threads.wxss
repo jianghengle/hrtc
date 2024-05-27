@@ -11,6 +11,37 @@
   border-top: 1rpx solid #333333;
 }
 
-.latest-chat {
-  height: 25px;
+.my-user-order {
+  height: 100rpx!important;
+}
+
+.my-order-content {
+  left: 120rpx!important;
+}
+
+.my-order-action {
+  width: 170rpx!important;
+}
+
+.history-order {
+  padding: 12px 15px 12px 25px;
+  width: 100%;
+}
+
+.history-order-title {
+  width: 100%;
+}
+
+.history-order-details {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.history-order-label {
+  flex-grow: 1;
+}
+
+.history-order-price {
+  flex-grow: 0;
 }

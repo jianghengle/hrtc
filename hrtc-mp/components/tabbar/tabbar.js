@@ -1,4 +1,4 @@
-import { httpGet, waitForUser } from '../../utils/util'
+import { httpGet, waitForUser } from '../../utils/utils'
 
 //获取应用实例
 const app = getApp()
@@ -35,7 +35,7 @@ Component({
         pagePath: "/pages/threads/threads",
         iconPath: "/images/tabbar/component.png",
         selectedIconPath: "/images/tabbar/component_cur.png",
-        text: "对话",
+        text: "订单",
         tag: 0,
       },
       {
@@ -69,7 +69,7 @@ Component({
         var missingChats = 0
         for (var thread of resp.data.threads) {
           var missingCount = (thread.eventOwnerId == app.globalData.user.id) ? (thread.chatCount - thread.eventOwnerCount) : (thread.chatCount - thread.userCount)
-          if (missingCount > 0) {
+          if (missingCount > 0 && thread.orderedItems && thread.orderedItems.length) {
             missingChats += missingCount
           }
         }

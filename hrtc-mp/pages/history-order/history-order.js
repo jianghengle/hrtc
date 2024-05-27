@@ -1,4 +1,6 @@
-// pages/chats/chats.js
+// pages/history-order/history-order.js
+const app = getApp()
+
 Page({
 
   /**
@@ -12,7 +14,7 @@ Page({
    * Lifecycle function--Called when page load
    */
   onLoad(options) {
-
+    
   },
 
   /**
@@ -26,7 +28,11 @@ Page({
    * Lifecycle function--Called when page show
    */
   onShow() {
-
+    console.log('app.globalData.currentHistoryOrder', app.globalData.currentHistoryOrder)
+    this.setData({
+      userMap: JSON.parse(JSON.stringify(app.globalData.userMap)),
+      historyOrder: JSON.parse(JSON.stringify(app.globalData.currentHistoryOrder)),
+    })
   },
 
   /**

@@ -42,6 +42,7 @@
           <view>
             <view class="text-gray text-sm text-right view-count">
               <text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.viewCount}}
+              <text class="cuIcon-messagefill margin-lr-xs"></text> {{item.threads || 0}}
             </view>
             <view class="{{'cu-tag radius event-tag bg-yellow'}}">{{item.tag.text}}</view>
           </view>

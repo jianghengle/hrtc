@@ -70,7 +70,10 @@ def handle(event, context):
             ('GET', '/thread/get-event-threads/:event_id', True, thread_controller.get_event_threads),
             ('POST', '/thread/submit-chat', True, thread_controller.submit_chat),
             ('POST', '/thread/update-note', True, thread_controller.update_note),
+            ('POST', '/thread/update-order', True, thread_controller.update_order),
+            ('POST', '/thread/archive-order', True, thread_controller.archive_order),
             ('GET', '/thread/get-thread/:id', True, thread_controller.get_thread),
+            ('GET', '/thread/get-thread-simple/:id', True, thread_controller.get_thread_simple),
             ('POST', '/thread/get-new-chats', True, thread_controller.get_new_chats),
             ('GET', '/thread/get-threads', True, thread_controller.get_threads),
         ])

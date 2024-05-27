@@ -1,5 +1,5 @@
 // pages/thread/thread.js
-import { formatDate, uploadFile, httpGet, httpPost, formatTime } from '../../utils/util' 
+import { formatDate, uploadFile, httpGet, httpPost, formatTime } from '../../utils/utils'
 
 const app = getApp()
 
@@ -71,7 +71,6 @@ Page({
           chatCount: chatCount,
           chatImageKeys: chatImageKeys,
           noteText: thread.note,
-          showMoreInputs: Boolean(thread.note),
         })
         that.scrollToBottom()
         that.startPullingChats()

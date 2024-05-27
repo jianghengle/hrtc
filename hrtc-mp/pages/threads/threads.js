@@ -1,5 +1,5 @@
 // pages/threads/threads.js
-import { formatDateShort, formatTime, waitForUser, httpGet } from '../../utils/util'
+import { formatDateShort, formatTime, formatTimeLong, formatPrice, waitForUser, httpGet } from '../../utils/utils'
 
 //获取应用实例
 const app = getApp()
@@ -17,6 +17,9 @@ Page({
     userMap: {},
     eventMap: {},
     hideTab: false,
+    historyOrdersCount: 0,
+    historyOrders: [],
+    historyOpen: false,
   },
 
   /**
@@ -62,9 +65,6 @@ Page({
       for (var thread of threads) {
         thread.latestChat.timeLabel = formatTime(thread.latestChat.timestamp)
         thread.missingCount = (thread.eventOwnerId == that.data.user.id) ? (thread.chatCount - thread.eventOwnerCount) : (thread.chatCount - thread.userCount)
-        if (!eventIds.includes(thread.eventId)) {
-          eventIds.push(thread.eventId)
-        }
         if (thread.eventOwnerId == that.data.user.id) {
           if (!ownedEventMap[thread.eventId]) {
             ownedEventMap[thread.eventId] = []
@@ -74,12 +74,22 @@ Page({
             userIds.push(thread.userId)
           }
           ownedEventMap[thread.eventId].push(thread)
-          eventThreadsMap[thread.eventId].push(thread)
+          if (thread.orderedItems && thread.orderedItems.length) {
+            eventThreadsMap[thread.eventId].push(thread)
+            if (!eventIds.includes(thread.eventId)) {
+              eventIds.push(thread.eventId)
+            }
+          }
         } else {
           if (!userIds.includes(thread.eventOwnerId)) {
             userIds.push(thread.eventOwnerId)
           }
-          eventThreadsMap[thread.eventId] = [thread]
+          if (thread.orderedItems && thread.orderedItems.length) {
+            eventThreadsMap[thread.eventId] = [thread]
+            if (!eventIds.includes(thread.eventId)) {
+              eventIds.push(thread.eventId)
+            }
+          }
         }
       }
       that.getUsers(userIds)
@@ -89,10 +99,64 @@ Page({
         ownedEventMap: ownedEventMap,
         eventThreadsMap: eventThreadsMap,
       })
+      that.collectHistoryData(threads)
       wx.hideLoading()
     }).catch(err => {
-      console.log('Failed to get threads')
+      console.log('Failed to get threads', err)
       wx.hideLoading()
+    })
+  },
+
+  collectHistoryData (threads) {
+    var historyOrdersCount = 0
+    var historyOrders = []
+    for(var thread of threads) {
+      if ((thread.userId == this.data.user.id || thread.eventOwnerId == this.data.user.id) && thread.historyOrders) {
+        for(var order of thread.historyOrders) {
+          var items = order.items.map(this.makeOrderedItemData)
+          order.items = items
+          order.totalPrice = this.computeTotalOrderPrice(items)
+          order.timeLabel = formatTimeLong(order.timestamp)
+          order.userId = thread.userId
+          order.eventOwnerId = thread.eventOwnerId
+          historyOrders.push(order)
+        }
+        historyOrdersCount += thread.historyOrders.length
+      }
+    }
+    historyOrders.sort((a, b) => b.timestamp - a.timestamp)
+    this.setData({
+      historyOrdersCount: historyOrdersCount,
+      historyOrders: historyOrders,
+    })
+  },
+
+  makeOrderedItemData (item) {
+    var priceValue = parseFloat(item.price)
+    var priceLabel = formatPrice(priceValue)
+    var totalPriceValue = priceValue * item.quantity
+    var totalPriceLabel = formatPrice(totalPriceValue)
+    return {...item, priceValue: priceValue, priceLabel: priceLabel, totalPriceValue: totalPriceValue, totalPriceLabel: totalPriceLabel}
+  },
+
+  computeTotalOrderPrice (orderedItems) {
+    var sum = 0
+    orderedItems.forEach(i => {
+      sum += i.totalPriceValue
+    })
+    return {value: sum, label: formatPrice(sum)}
+  },
+
+  toggleHistory () {
+    this.setData({historyOpen: !this.data.historyOpen})
+  },
+
+  openHistoryOrder (e) {
+    var index = e.currentTarget.dataset.index
+    app.globalData.currentHistoryOrder = this.data.historyOrders[index]
+    app.globalData.userMap = this.data.userMap
+    wx.navigateTo({
+      url: '/pages/history-order/history-order',
     })
   },
 
@@ -133,6 +197,18 @@ Page({
     this.setData({hideTab: true})
     wx.navigateTo({
       url: '/pages/thread/thread',
+    })
+  },
+
+  openOrder (e) {
+    var thread = e.currentTarget.dataset.thread;
+    app.globalData.currentEvent = this.data.eventMap[thread.eventId]
+    app.globalData.userMap = this.data.userMap
+    app.globalData.currentThreadId = thread.id
+    app.globalData.currentThread = thread
+    this.setData({hideTab: true})
+    wx.navigateTo({
+      url: '/pages/order/order',
     })
   },
 

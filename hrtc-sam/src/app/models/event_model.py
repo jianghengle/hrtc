@@ -9,7 +9,7 @@ class EventModel(Model):
     TableName = 'HrtcEvents'
     OwnerIdGSI = ('ownerIdGSI', 'ownerId')
     LocationStatusKeyGSI = ('locationStatusKeyGSI', 'locationStatusKey')
-    Fields = ['id', 'ownerId', 'eventType', 'status', 'title', 'description', 'items', 'location', 'locationStatusKey', 'createdAt', 'updatedAt', 'openedAt', 'views']
+    Fields = ['id', 'ownerId', 'eventType', 'status', 'title', 'description', 'items', 'location', 'locationStatusKey', 'createdAt', 'updatedAt', 'openedAt', 'views', 'threadsCount']
 
     @staticmethod
     def get_by_location_status(locationStatusKey):
@@ -70,6 +70,15 @@ class EventModel(Model):
         table = dynamo_service.get_table(EventModel.TableName)
         id = event.id
         data = {'views': views}
+        dynamo_service.update_item(table, 'id', id, data)
+        item = dynamo_service.get_item(table, 'id', id)
+        return EventModel(item)
+
+    @staticmethod
+    def update_threads_count(event, threads_count):
+        table = dynamo_service.get_table(EventModel.TableName)
+        id = event.id
+        data = {'threadsCount': threads_count}
         dynamo_service.update_item(table, 'id', id, data)
         item = dynamo_service.get_item(table, 'id', id)
         return EventModel(item)

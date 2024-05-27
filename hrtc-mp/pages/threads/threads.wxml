@@ -1,6 +1,6 @@
 <!--pages/threads/threads.wxml-->
 <cu-custom bgColor="bg-black">
-  <view slot="content">对话</view>
+  <view slot="content">订单</view>
 </cu-custom>
 
 <tabbar selected="2" hideTab="{{hideTab}}"></tabbar>
@@ -8,7 +8,7 @@
 <view wx:if="{{eventIds && ownedEventMap}}" class="threads-container page-bg">
   <view class="padding" wx:if="{{!eventIds.length}}">
     <view class="padding bg-black radius">
-      没有找到任何聊天记录。
+      没有找到任何记录。
     </view>
   </view>
   <view wx:for="{{eventIds}}" wx:for-index="idx" wx:for-item="eventId" wx:key="idx">
@@ -21,24 +21,46 @@
       <view class="text-gray text-sm event-date">{{eventMap[eventId].pubDate}}</view>
     </view>
     <view class="cu-list menu-avatar">
-      <view class="cu-item card-bg border-top-gray" wx:for="{{eventThreadsMap[eventId]}}" wx:for-item="thread"
-        wx:for-index="index" wx:key="index" data-thread="{{thread}}" bindtap="openThread">
-        <view wx:if="{{ownedEventMap[eventId]}}" class="cu-avatar round lg" style="background-image:url({{userMap[thread.userId].avatarUrl}});"></view>
-        <view wx:if="{{!ownedEventMap[eventId]}}" class="cu-avatar round lg" style="background-image:url({{userMap[thread.latestChat.userId].avatarUrl}});"></view>
-        <view class="content">
+      <view class="cu-item card-bg border-top-gray my-user-order" wx:for="{{eventThreadsMap[eventId]}}" wx:for-item="thread"
+        wx:for-index="index" wx:key="index" data-thread="{{thread}}" bindtap="openOrder">
+        <view class="cu-avatar round" style="background-image:url({{userMap[thread.userId].avatarUrl}});"></view>
+        <view class="content my-order-content">
           <view>
-            <text wx:if="{{ownedEventMap[eventId]}}"  class="text-cut text-user">{{userMap[thread.userId].nickname}}</text>
-            <text wx:if="{{!ownedEventMap[eventId]}}"  class="text-cut text-user">{{userMap[thread.latestChat.userId].nickname}}</text>
+            <text class="text-cut text-user">{{userMap[thread.userId].nickname}}</text>
           </view>
-          <view class="text-gray text-sm flex">
-            <text class="text-cut latest-chat" wx:if="{{thread.latestChat.type == 'text'}}">{{thread.latestChat.content}}</text>
-            <text class="text-cut latest-chat" wx:if="{{thread.latestChat.type == 'image'}}">图片</text>
-            <text class="text-cut latest-chat" wx:if="{{thread.latestChat.type == 'audio'}}">语音</text>
+          <view wx:if="{{thread.note}}" class="text-gray text-sm flex text-cut">
+            {{thread.note}}
           </view>
         </view>
-        <view class="action">
+        <view class="action my-order-action">
           <view class="text-grey text-xs">{{thread.latestChat.timeLabel}}</view>
           <view class="cu-tag round bg-red sm" wx:if="{{thread.missingCount}}">{{thread.missingCount}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{historyOrders.length}}">
+    <view class="cu-bar bg-white solid-bottom margin-top card-bg">
+      <view class="action">
+        <text class="cuIcon-title text-grey">
+        </text>
+        <text class="text-cut text-grey">历史订单: {{historyOrdersCount}}</text>
+      </view>
+      <view class="action" bindtap="toggleHistory">
+        <text class="{{'cuIcon-' + (historyOpen ? 'fold' : 'unfold') + ' text-blue'}}"></text>
+      </view>
+    </view>
+    <view wx:if="{{historyOpen}}" class="cu-item card-bg border-top-gray history-order" wx:for="{{historyOrders}}" wx:key="index" wx:for-index="idx" data-index="{{idx}}" bind:tap="openHistoryOrder">
+      <view wx:if="{{userMap[item.eventOwnerId]}}" class="history-order-title text-cut text-grey">
+        {{userMap[item.eventOwnerId].nickname + ': ' + item.event}}
+      </view>
+      <view class="history-order-details" wx:if="{{userMap[item.userId]}}">
+        <view class="history-order-label text-cut text-grey">
+          {{userMap[item.userId].nickname + ': ' + item.timeLabel}}
+        </view>
+        <view class="history-order-price">
+          <text class="text-grey">{{item.totalPrice.label}}</text>
         </view>
       </view>
     </view>

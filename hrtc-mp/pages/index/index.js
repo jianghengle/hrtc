@@ -1,5 +1,5 @@
 //index.js
-import { waitForUser } from '../../utils/util'
+import { waitForUser } from '../../utils/utils'
 
 //获取应用实例
 const app = getApp()

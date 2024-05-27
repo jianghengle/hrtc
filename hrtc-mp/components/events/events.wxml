@@ -46,6 +46,7 @@
       </view>
       <view class="text-gray text-sm text-right padding">
         <text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.viewCount}}
+        <text class="cuIcon-messagefill margin-lr-xs"></text> {{item.threadsCount || 0}}
       </view>
     </view>
   </view>

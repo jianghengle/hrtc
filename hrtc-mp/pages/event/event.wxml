@@ -35,56 +35,175 @@
         </view>
       </view>
 
-      <view class="padding event-padding" wx:for="{{event.items}}" wx:key="index">
+      <view class="item-container" wx:for="{{event.items}}" wx:key="index">
         <view wx:if="{{item.title}}" class="text-main text-bold">
           <text user-select="{{true}}">{{item.title}}</text>
+          <text wx:if="{{item.price}}">{{' / ' + item.priceLabel}}</text>
         </view>
+        <view wx:if="{{item.price}}" class="item-orders">
+          <view class="avatars-container" wx:if="{{itemOrdersMap[item.id]}}">
+            <view wx:for="{{itemOrdersMap[item.id].orders}}" wx:for-item="order" wx:key="index"
+              class="cu-avatar round {{order.userId == user.id ? 'my-avatar' : 'order-avatar'}}"
+              style="{{'background-image:url(' + userMap[order.userId].avatarUrl + ');'}}">
+            </view>
+          </view>
+          <view wx:if="{{!isOwner}}" class="order-btn-container">
+            <button class="cu-btn round line-yellow" bind:tap="openOrderItemModal" data-item="{{item}}">
+              <text class="cuIcon-cartfill"></text>
+              <text class="text-bold cart-count" wx:if="{{userThreadMap[user.id] && userThreadMap[user.id].orderedItemMap && userThreadMap[user.id].orderedItemMap[item.id] && userThreadMap[user.id].orderedItemMap[item.id].quantity}}">
+                {{userThreadMap[user.id].orderedItemMap[item.id].quantity}}
+              </text>
+            </button>
+          </view>
+          <view wx:if="{{isOwner && itemOrdersMap[item.id]}}" class="order-btn-container">
+            <button class="cu-btn round line-yellow" bind:tap="openItemOrdersModal" data-item="{{item}}">
+              <text class="cuIcon-cartfill"></text>
+              <text class="text-bold cart-count">
+                {{itemOrdersMap[item.id].totalQuantity}}
+              </text>
+            </button>
+          </view>
+        </view>
+        <images initialImages="{{item.images}}" imageMap="{{imageMap}}" allImageKeys="{{imageKeys}}" editable="{{false}}"/>
         <view wx:if="{{item.text}}" class="description text-gray">
           <text user-select="{{true}}">{{item.text}}</text>
         </view>
-        <images initialImages="{{item.images}}" imageMap="{{imageMap}}" allImageKeys="{{imageKeys}}" editable="{{false}}"/>
       </view>
 
       <view class="text-gray text-sm text-right padding">
         <text class="cuIcon-attentionfill margin-lr-xs"></text> {{event.viewCount}}
+        <text class="cuIcon-messagefill margin-lr-xs"></text> {{event.threadsCount || 0}}
       </view>
 
     </view>
   </view>
 
   <view wx:if="{{eventThreads}}">
-    <view class="cu-bar bg-white solid-bottom margin-top card-bg">
-      <view class="action">
-        <text class="cuIcon-title text-orange"></text>
-        <text class="text-gray">对话</text>
+    <view wx:if="{{!isOwner}}">
+      <view wx:if="{{userThread && userThread.orderedItems && userThread.orderedItems.length}}">
+        <view class="cu-bar bg-white solid-bottom margin-top card-bg" data-user-id="{{userThread.userId}}" bind:tap="openOrder">
+          <view class="action my-order-action">
+            <text class="cuIcon-title text-yellow"></text>
+            <text class="text-gray my-order-title">订单</text>
+            <view class="text-gray text-sm text-cut my-order-note">{{userThread.note}}</view>
+          </view>
+          <view class="action">
+            <text class="cuIcon-right text-blue"></text>
+          </view>
+        </view>
+        <view class="cu-item card-bg border-top-gray order-item" wx:for="{{userThread.orderedItems}}" wx:key="index">
+          <view class="order-item-title">
+            <text class="text-grey text-cut">{{item.title}}</text>
+          </view>
+          <view class="order-item-quantity">
+            <text class="text-grey">{{item.priceLabel + ' x ' + item.quantity}}</text>
+          </view>
+        </view>
       </view>
-      <view class="action" wx:if="{{!isOwner && eventThreads.length == 0}}">
-        <button class="cu-btn line-yellow shadow" bindtap="openNewThread">发起对话</button>
+
+      <view wx:if="{{historyOrders.length}}">
+        <view class="cu-bar bg-white solid-bottom margin-top card-bg">
+          <view class="action">
+            <text class="cuIcon-title text-grey">
+            </text>
+            <text class="text-cut text-grey">历史订单: {{historyOrdersCount}}</text>
+          </view>
+          <view class="action" bindtap="toggleHistory">
+            <text class="{{'cuIcon-' + (historyOpen ? 'fold' : 'unfold') + ' text-blue'}}"></text>
+          </view>
+        </view>
+        <view wx:if="{{historyOpen}}" class="cu-item card-bg border-top-gray history-order" wx:for="{{historyOrders}}" wx:key="index" wx:for-index="idx" data-index="{{idx}}" bind:tap="openHistoryOrder">
+          <view class="history-order-title text-cut text-grey">
+            {{item.timeLabel}}
+          </view>
+          <view class="history-order-price">
+            <text class="text-grey">{{item.totalPrice.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="cu-bar bg-white solid-bottom margin-top card-bg">
+        <view class="action">
+          <text class="cuIcon-title text-orange"></text>
+          <text class="text-gray">私信</text>
+        </view>
+        <view class="action" wx:if="{{!isOwner && !userThread}}">
+          <button class="cu-btn line-yellow shadow" bindtap="openNewThread">发私信</button>
+        </view>
+      </view>
+      <view class="cu-list menu-avatar">
+        <view class="cu-item card-bg border-top-gray chat-item" wx:for="{{eventThreads}}" wx:key="index" data-id="{{item.id}}" bindtap="openThread">
+          <view class="cu-avatar round" style="background-image:url({{userMap[item.latestChat.userId].avatarUrl}});"></view>
+          <view class="content chat-content">
+            <view class="text-main">
+              <text class="text-cut text-user">{{userMap[item.latestChat.userId].nickname}}</text>
+            </view>
+            <view class="text-gray text-sm flex">
+              <text class="text-cut latest-chat" wx:if="{{item.latestChat.type == 'text'}}">{{item.latestChat.content}}</text>
+              <text class="text-cut latest-chat" wx:if="{{item.latestChat.type == 'image'}}">图片</text>
+              <text class="text-cut latest-chat" wx:if="{{item.latestChat.type == 'audio'}}">语音</text>
+            </view>
+          </view>
+          <view class="action latest-chat-action">
+            <view class="text-grey text-xs">{{item.latestChat.timeLabel}}</view>
+            <view class="cu-tag round bg-red sm" wx:if="{{item.missingCount}}">{{item.missingCount}}</view>
+          </view>
+        </view>
       </view>
     </view>
-    <view class="cu-list menu-avatar" wx:if="{{!isOwner}}">
-      <view class="cu-item card-bg border-top-gray" wx:for="{{eventThreads}}" wx:key="index" data-id="{{item.id}}" bindtap="openThread">
-        <view class="cu-avatar round lg" style="background-image:url({{userMap[item.latestChat.userId].avatarUrl}});"></view>
-        <view class="content">
-          <view class="text-main">
-            <text class="text-cut text-user">{{userMap[item.latestChat.userId].nickname}}</text>
-          </view>
-          <view class="text-gray text-sm flex">
-            <text class="text-cut latest-chat" wx:if="{{item.latestChat.type == 'text'}}">{{item.latestChat.content}}</text>
-            <text class="text-cut latest-chat" wx:if="{{item.latestChat.type == 'image'}}">图片</text>
-            <text class="text-cut latest-chat" wx:if="{{item.latestChat.type == 'audio'}}">语音</text>
-          </view>
+
+    <view class="cu-list menu-avatar" wx:if="{{isOwner}}">
+      <view class="cu-bar bg-white solid-bottom margin-top card-bg" wx:if="{{totalOrdersQuantity}}">
+        <view class="action">
+          <text class="cuIcon-title text-orange"></text>
+          <text class="text-gray">订单</text>
+        </view>
+      </view>
+      <view class="cu-item card-bg border-top-gray my-user-order" wx:for="{{eventThreads}}" wx:key="index" data-user-id="{{item.userId}}" wx:if="{{item.orderedItemsQuantity}}" bind:tap="openOrder">
+        <view class="cu-avatar round" style="background-image:url({{userMap[item.userId].avatarUrl}});"></view>
+        <view class="content item-order-username">
+          <view class="text-grey">{{userMap[item.userId].nickname}}</view>
+          <view wx:if="{{item.note}}" class="text-gray text-sm flex text-cut">{{item.note}}</view>
         </view>
         <view class="action">
-          <view class="text-grey text-xs">{{item.latestChat.timeLabel}}</view>
-          <view class="cu-tag round bg-red sm" wx:if="{{item.missingCount}}">{{item.missingCount}}</view>
+          <text class="cuIcon-cartfill text-yellow"></text>
+          <text class="text-yellow text-bold my-order-quantity">{{item.orderedItemsQuantity}}</text>
+        </view>
+        <view class="action">
+          <text class="cuIcon-right text-grey"></text>
         </view>
       </view>
-    </view>
-    <view class="cu-list menu-avatar" wx:if="{{isOwner}}">
-      <view class="cu-item card-bg border-top-gray" wx:for="{{eventThreads}}" wx:key="index" data-id="{{item.id}}" bindtap="openThread">
-        <view class="cu-avatar round lg" style="background-image:url({{userMap[item.userId].avatarUrl}});"></view>
-        <view class="content">
+
+      <view wx:if="{{historyOrders.length}}">
+        <view class="cu-bar bg-white solid-bottom margin-top card-bg">
+          <view class="action">
+            <text class="cuIcon-title text-grey">
+            </text>
+            <text class="text-cut text-grey">历史订单: {{historyOrdersCount}}</text>
+          </view>
+          <view class="action" bindtap="toggleHistory">
+            <text class="{{'cuIcon-' + (historyOpen ? 'fold' : 'unfold') + ' text-blue'}}"></text>
+          </view>
+        </view>
+        <view wx:if="{{historyOpen}}" class="cu-item card-bg border-top-gray history-order" wx:for="{{historyOrders}}" wx:key="index" wx:for-index="idx" data-index="{{idx}}" bind:tap="openHistoryOrder">
+          <view class="history-order-title text-cut text-grey">
+            {{userMap[item.userId].nickname + ': ' + item.timeLabel}}
+          </view>
+          <view class="history-order-price">
+            <text class="text-grey">{{item.totalPrice.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="cu-bar bg-white solid-bottom margin-top card-bg">
+        <view class="action">
+          <text class="cuIcon-title text-orange"></text>
+          <text class="text-gray">私信</text>
+        </view>
+      </view>
+      <view class="cu-item card-bg border-top-gray chat-item" wx:for="{{eventThreads}}" wx:key="index" data-id="{{item.id}}" bindtap="openThread">
+        <view class="cu-avatar round" style="background-image:url({{userMap[item.userId].avatarUrl}});"></view>
+        <view class="content chat-content">
           <view class="text-main">
             <text class="text-cut text-user">{{userMap[item.userId] && userMap[item.userId].nickname}}</text>
           </view>
@@ -94,7 +213,7 @@
             <text class="text-cut latest-chat" wx:if="{{item.latestChat.type == 'audio'}}">语音</text>
           </view>
         </view>
-        <view class="action">
+        <view class="action latest-chat-action">
           <view class="text-grey text-xs">{{item.latestChat.timeLabel}}</view>
           <view class="cu-tag round bg-red sm" wx:if="{{item.missingCount}}">{{item.missingCount}}</view>
         </view>
@@ -104,4 +223,65 @@
   
 </view>
 
+</view>
+
+<view wx:if="{{orderItemModal.opened}}" class="cu-modal show">
+  <view class="cu-dialog my-modal">
+    <view class="cu-bar justify-end modal-header">
+      <view class="content text-bold">订单</view>
+    </view>
+    <view class="padding-xl modal-body">
+      <view class="text-bold modal-item-title">
+        <text>{{orderItemModal.item.title + ' / ' + orderItemModal.item.priceLabel}}</text>
+      </view>
+
+      <view class="modal-quantity padding justify-center">
+        <button class="cu-btn icon bg-yellow" bind:tap="decreaseOrderQuantity">
+          <text class="text-bold text-xl">-</text>
+        </button>
+        <view class="modal-quantity-value">
+          <text>{{orderItemModal.quantity}}</text>
+        </view>
+        <button class="cu-btn icon bg-yellow" bind:tap="increaseOrderQuantity">
+          <text class="text-bold text-xl">+</text>
+        </button>
+      </view>
+    </view>
+    <view class="cu-bar justify-end modal-footer">
+      <view class="action">
+        <button class="cu-btn line-black text-white" bindtap="closeOrderItemModal">取消</button>
+        <button class="cu-btn bg-yellow margin-left" bindtap="updateOrder">确定</button>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{itemOrdersModal.opened}}" class="cu-modal show my-big-modal">
+  <view class="cu-dialog my-modal">
+    <view class="cu-bar justify-end modal-header">
+      <view class="content text-bold text-cut">{{itemOrdersModal.item.title}}</view>
+      <view class="action" bindtap="hideItemOrdersModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="modal-body padding">
+      <view class="cu-list menu-avatar">
+        <view wx:for="{{itemOrdersModal.orders}}" wx:key="index" wx:for-index="idx" class="cu-item card-bg my-item-order {{idx ? 'border-top-gray' : ''}}">
+          <view class="cu-avatar round" style="background-image:url({{userMap[item.userId].avatarUrl}});"></view>
+          <view class="content item-order-username">
+            <view class="text-grey">{{userMap[item.userId].nickname}}</view>
+          </view>
+          <view class="action">
+            <text class="text-yellow text-bold">{{item.quantity}}</text>
+          </view>
+        </view>
+        <view class="cu-item card-bg my-item-order border-top-gray">
+          <view class="text-grey">总共：</view>
+          <view class="action">
+            <text class="text-yellow text-bold">{{itemOrdersModal.totalQuantity}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
 </view>

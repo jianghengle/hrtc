@@ -7,10 +7,20 @@
   </view>
 </view>
 
-<view class="cu-form-group align-start dark-bg border-top-gray">
-  <view class="title text-grey">章节描述</view>
-  <textarea class="text-main my-textarea" auto-height="{{true}}" model:value="{{text}}" maxlength="{{1000}}"></textarea>
+<view class="cu-form-group dark-bg border-top-gray">
+  <view class="title text-grey">产品单价</view>
+  <input class="text-main" type="digit" model:value="{{price}}"></input>
+</view>
+
+<view class="cu-form-group dark-bg border-top-gray">
+  <view class="title text-grey">最少购买</view>
+  <input class="text-main" type="number" model:value="{{minBuy}}"></input>
 </view>
 
 <images initialImages="{{images}}" imageMap="{{imageMap}}" editable="{{true}}"
   bind:deleteimage="deleteImage" bind:chooseimage="chooseImage" />
+
+<view class="cu-form-group align-start dark-bg border-top-gray">
+  <view class="title text-grey">章节描述</view>
+  <textarea class="text-main my-textarea" auto-height="{{true}}" model:value="{{text}}" maxlength="{{1000}}"></textarea>
+</view>

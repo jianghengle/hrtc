@@ -1,0 +1,67 @@
+/* pages/history-order/history-order.wxss */
+.history-order-page {
+  padding-bottom: 100px;
+}
+
+
+.border-top-gray {
+  border-top: 1rpx solid #333333;
+}
+
+.my-section {
+  padding-left: 5px!important;
+}
+
+.order-item-title-line {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 15px 20px 5px 20px;
+}
+
+.order-item-title {
+  flex-grow: 1;
+  padding-right: 10px;
+  padding-top: 3px;
+}
+
+.order-quantity {
+  flex-grow: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.order-item-price-line {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 5px 20px 15px 20px;
+}
+
+.order-item-price {
+  flex-grow: 1;
+}
+
+.order-item-cost {
+  flex-grow: 0;
+  text-align: right;
+}
+
+.total-order-price-title {
+  margin-left: 20px!important;
+}
+
+.total-order-price-value {
+  margin-right: 20px!important;
+}
+
+.my-note-section {
+  padding-left: 20px!important;
+}
+
+.my-note-text {
+  flex-grow: 1;
+  white-space: pre-wrap;
+  height: auto!important;
+  padding-bottom: 15px;
+}

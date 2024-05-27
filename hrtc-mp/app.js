@@ -1,5 +1,5 @@
 //app.js
-import { httpPost } from 'utils/util' 
+import { httpPost } from 'utils/utils'
 
 App({
   onLaunch: function(options) {
@@ -63,6 +63,9 @@ App({
       'chef': {color: 'green', text: '私厨', addButton: '发布新私厨'},
     },
     currentEvent: null,
+    currentThread: null,
     missingChats: 0,
+    currentHistoryOrder: null,
+    userMap: {},
   }
 })

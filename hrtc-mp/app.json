@@ -3,12 +3,13 @@
     "pages/index/index",
     "pages/me/me",
     "pages/event/event",
-    "pages/chats/chats",
     "pages/posts/posts",
     "pages/edit-event/edit-event",
     "pages/chefs/chefs",
     "pages/threads/threads",
-    "pages/thread/thread"
+    "pages/thread/thread",
+    "pages/order/order",
+    "pages/history-order/history-order"
   ],
   "permission": {
     "scope.userFuzzyLocation": {

@@ -53,6 +53,7 @@
 
       <view class="text-gray text-sm text-right padding">
         <text class="cuIcon-attentionfill margin-lr-xs"></text> {{event.viewCount}}
+        <text class="cuIcon-messagefill margin-lr-xs"></text> {{event.threads || 0}}
       </view>
 
     </view>
@@ -91,9 +92,6 @@
         placeholder="输入文本" auto-focus="{{true}}" cursor-spacing="{{15}}" hold-keyboard="{{true}}" maxlength="{{500}}"
         bindconfirm="inputConfirmed" confirm-hold="{{true}}" confirm-type="{{'send'}}" show-confirm-bar="{{false}}">
       </textarea>
-      <view class="action fold-btn" bindtap="toggleMoreInputs">
-        <text class="cuIcon-{{showMoreInputs ? 'unfold' : 'fold'}} fold-btn-text text-grey"></text>
-      </view>
     </view>
   </view>
 </form>
