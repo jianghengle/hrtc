@@ -1,5 +1,5 @@
 <!--components/events/events.wxml-->
-<view class="add-post-button">
+<view class="add-post-button" wx:if="{{false}}">
   <button wx:if="{{eventTypeInfo}}" class="{{'cu-btn line-yellow'}}" bind:tap="editEvent">
     <text class="cuIcon-add lg add-icon"></text>
     <text>{{eventTypeInfo.addButton}}</text>
@@ -7,14 +7,14 @@
 </view>
 
 <view class="padding" wx:if="{{events && !events.length}}">
-  <view class="padding bg-black radius">抱歉，附近没有找到任何发布的信息。</view>
+  <view class="padding bg-black radius">抱歉，附近没有找到任何的信息。</view>
 </view>
 
 <view class="events-container" wx:if="{{events && events.length}}">
   <view wx:for="{{events}}" wx:key="index" class="cu-card dynamic">
     <view class="cu-item bg-white radius shadow shadow-lg" style="background-color: #1b1b1b;" data-event-id="{{item.id}}" bind:tap="openEvent">
       <view class="edit-icon" wx:if="{{user.id == item.ownerId}}">
-        <button class="cu-btn line-yellow" data-event-id="{{item.id}}" bind:tap="editEvent">
+        <button class="cu-btn line-yellow" data-event-id="{{item.id}}" catch:tap="editEvent">
           <text style="font-weight: normal;">编辑</text>
         </button>
       </view>

@@ -34,7 +34,7 @@
 
   </view>
 
-  <view class="cu-list menu sm-border card-menu margin-top bg-white radius shadow shadow-lg card-bg">
+  <view wx:if="{{!isolated}}" class="cu-list menu sm-border card-menu margin-top bg-white radius shadow shadow-lg card-bg">
     <view class="cu-item arrow card-bg" bindtap="openPosts">
       <view class="content">
         <text class="cuIcon-post text-main"></text>

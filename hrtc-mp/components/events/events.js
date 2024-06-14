@@ -56,7 +56,12 @@ Component({
       for (var cell of cells) {
         var key = '' + cell[0] + '_' + cell[1] + '_open' 
         var promise = httpGet('/event/get_events_by_location_status/' + key, app).then(resp => {
-          events = events.concat(resp.data.events)
+          var eventIds = events.map(e => e.id)
+          for (var event of resp.data.events) {
+            if (!eventIds.includes(event.id)) {
+              events.push(event)
+            }
+          }
         })
         promises.push(promise)
       }

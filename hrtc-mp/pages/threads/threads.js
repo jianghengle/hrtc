@@ -116,6 +116,7 @@ Page({
           var items = order.items.map(this.makeOrderedItemData)
           order.items = items
           order.totalPrice = this.computeTotalOrderPrice(items)
+          order.timestamp = this.computeHistoryOrderTimestamp(items)
           order.timeLabel = formatTimeLong(order.timestamp)
           order.userId = thread.userId
           order.eventOwnerId = thread.eventOwnerId
@@ -145,6 +146,14 @@ Page({
       sum += i.totalPriceValue
     })
     return {value: sum, label: formatPrice(sum)}
+  },
+
+  computeHistoryOrderTimestamp (orderedItems) {
+    var timestamp = 0
+    orderedItems.forEach(i => {
+      timestamp = Math.max(timestamp, i.timestamp)
+    })
+    return timestamp
   },
 
   toggleHistory () {

@@ -8,16 +8,16 @@
 <view class="add-post-button">
   <button class="{{'cu-btn line-yellow my-btn'}}" data-event-type="groupBuy" bind:tap="addEvent" >
     <text class="cuIcon-add lg add-icon"></text>
-    <text>发起新团购</text>
+    <text>新团购</text>
   </button>
   <button class="{{'cu-btn line-yellow my-btn'}}" data-event-type="chef" bind:tap="addEvent">
     <text class="cuIcon-add lg add-icon"></text>
-    <text>发布新私厨</text>
+    <text>新私厨</text>
   </button>
 </view>
 
 <view class="padding" wx:if="{{events && !events.length}}">
-  <view class="padding bg-black radius">您还没有发布过任何信息！</view>
+  <view class="padding bg-black radius">您还没有任何信息！</view>
 </view>
 
 <view wx:if="{{events && events.length}}" class="events-container">
@@ -42,7 +42,7 @@
           <view>
             <view class="text-gray text-sm text-right view-count">
               <text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.viewCount}}
-              <text class="cuIcon-messagefill margin-lr-xs"></text> {{item.threads || 0}}
+              <text class="cuIcon-messagefill margin-lr-xs"></text> {{item.threadsCount || 0}}
             </view>
             <view class="{{'cu-tag radius event-tag bg-yellow'}}">{{item.tag.text}}</view>
           </view>

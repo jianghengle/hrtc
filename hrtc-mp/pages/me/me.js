@@ -47,6 +47,7 @@ Page({
         avatar: app.globalData.user.avatar,
         avatarUrl: app.globalData.user.avatarUrl,
         location: app.globalData.user.location,
+        isolated: app.globalData.user.isolated,
       })
     })
   },

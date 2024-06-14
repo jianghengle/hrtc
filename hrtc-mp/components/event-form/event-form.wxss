@@ -13,7 +13,3 @@
 .text-main {
   color: #d8d8d8!important;
 }
-
-.my-textarea {
-  margin-top: 8px!important;
-}

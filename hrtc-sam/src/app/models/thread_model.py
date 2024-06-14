@@ -176,7 +176,7 @@ def filter_ordered_items(event, ordered_items, with_min_buy=True):
     for item in event.items:
         if not item.get('price', None):
             continue
-        ordered_item = ordered_item_map[item['id']]
+        ordered_item = ordered_item_map.get(item['id'], None)
         if ordered_item and ordered_item['quantity']:
             ordered_item['title'] = item['title']
             ordered_item['price'] = item['price']

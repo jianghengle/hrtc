@@ -40,11 +40,17 @@ function formatPrice (value) {
     value = 0
   }
   value = parseFloat(value)
-  return '$' + value.toLocaleString('en-US', {
-    maximumFractionDigits: 2,
-    minimumFractionDigits: 2,
-    useGrouping: false
-  })
+  value = Math.round(value * 100) / 100
+  var ss = value.toString().split('.')
+  if (ss.length < 2) {
+    return '$' + ss[0] + '.00'
+  }
+  var n = ss[0] || '0'
+  var d = ss[1]
+  while (d.length < 2) {
+    d  = d + '0'
+  }
+  return '$' + n + '.' + d
 }
 
 const waitForUser = (app, callback) => {

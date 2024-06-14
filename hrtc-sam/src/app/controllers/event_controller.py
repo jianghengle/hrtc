@@ -6,7 +6,10 @@ from ..models.thread_model import ThreadModel
 from .. import MyError
 
 def get_events_by_location_status_key(req, key):
-    events = EventModel.get_by_location_status(key)
+    if req.user.isolated:
+        events = EventModel.get_the_three_events()
+    else:
+        events = EventModel.get_by_location_status(key)
     return {'events': [event.data for event in events]}
 
 def get_owned_events(req):

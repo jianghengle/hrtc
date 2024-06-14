@@ -15,7 +15,7 @@
     <view style="height:10px"></view>
     <view class="cu-bar bg-white solid-bottom card-bg">
       <view class="action text-main">
-        <text class="cuIcon-title text-{{ownedEventMap[eventId] ? 'orange' : 'blue'}}"></text>
+        <text class="cuIcon-title text-{{ownedEventMap[eventId] ? 'yellow' : 'orange'}}"></text>
         <text wx:if="{{eventMap[eventId]}}" data-event-id="{{eventId}}" bind:tap="openEvent">{{eventMap[eventId].title}}</text>
       </view>
       <view class="text-gray text-sm event-date">{{eventMap[eventId].pubDate}}</view>
@@ -43,9 +43,9 @@
   <view wx:if="{{historyOrders.length}}">
     <view class="cu-bar bg-white solid-bottom margin-top card-bg">
       <view class="action">
-        <text class="cuIcon-title text-grey">
+        <text class="cuIcon-title text-gray">
         </text>
-        <text class="text-cut text-grey">历史订单: {{historyOrdersCount}}</text>
+        <text class="text-cut text-gray">历史订单: {{historyOrdersCount}}</text>
       </view>
       <view class="action" bindtap="toggleHistory">
         <text class="{{'cuIcon-' + (historyOpen ? 'fold' : 'unfold') + ' text-blue'}}"></text>
@@ -53,11 +53,13 @@
     </view>
     <view wx:if="{{historyOpen}}" class="cu-item card-bg border-top-gray history-order" wx:for="{{historyOrders}}" wx:key="index" wx:for-index="idx" data-index="{{idx}}" bind:tap="openHistoryOrder">
       <view wx:if="{{userMap[item.eventOwnerId]}}" class="history-order-title text-cut text-grey">
-        {{userMap[item.eventOwnerId].nickname + ': ' + item.event}}
+        <text class="text-gray history-order-title-event">{{item.event}}</text>
+        <text class="text-grey">{{userMap[item.eventOwnerId].nickname}}</text>
       </view>
       <view class="history-order-details" wx:if="{{userMap[item.userId]}}">
         <view class="history-order-label text-cut text-grey">
-          {{userMap[item.userId].nickname + ': ' + item.timeLabel}}
+          <text class="text-gray history-order-details-time">{{item.timeLabel}}</text>
+          <text class="text-grey">{{userMap[item.userId].nickname}}</text>
         </view>
         <view class="history-order-price">
           <text class="text-grey">{{item.totalPrice.label}}</text>

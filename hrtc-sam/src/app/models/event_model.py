@@ -12,6 +12,15 @@ class EventModel(Model):
     Fields = ['id', 'ownerId', 'eventType', 'status', 'title', 'description', 'items', 'location', 'locationStatusKey', 'createdAt', 'updatedAt', 'openedAt', 'views', 'threadsCount']
 
     @staticmethod
+    def get_the_three_events():
+        event_ids = [
+            '58f8582d-ad3b-4624-b707-a9fe9f280ad1',
+            '3e1beadd-7d94-4914-a10e-b85823fe36c2',
+            '6b5962dc-a2fb-4431-a9f1-58e23d9d0058',
+        ]
+        return [EventModel.get_by_id(event_id) for event_id in event_ids]
+
+    @staticmethod
     def get_by_location_status(locationStatusKey):
         table = dynamo_service.get_table(EventModel.TableName)
         items = dynamo_service.query(table, EventModel.LocationStatusKeyGSI[0], EventModel.LocationStatusKeyGSI[1], locationStatusKey)

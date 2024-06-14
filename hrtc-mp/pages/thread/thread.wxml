@@ -7,7 +7,7 @@
   style="{{'height:calc(100vh - 80px - ' + keyboardHeight + 'px)'}}" class="thread-bg">
   <view class="cu-bar bg-white solid-bottom card-bg">
     <view class="action">
-      <text class="cuIcon-title text-yellow">
+      <text class="cuIcon-title text-blue">
       </text>
       <text class="text-cut text-main">{{event.title}}</text>
     </view>
@@ -72,14 +72,6 @@
 
 <form bindsubmit="submitTextChat">
   <view class="my-foot-bar" style="{{'bottom:' + keyboardHeight + 'px'}}">
-    <view class="cu-bar my-note-bar card-bg" bindtap="openNoteModal" wx:if="{{showMoreInputs}}">
-      <view class="action">
-        <text class="cuIcon-info text-grey"></text>
-      </view>
-      <view class="action" wx:if="{{noteText}}">
-        <text class="text-grey">{{noteText}}</text>
-      </view>
-    </view>
     <view class="cu-bar input input-bottom-bar card-bg">
       <view class="action" bindtouchstart="startRecord" bindtouchend="stopRecord">
         <text class="cuIcon-sound text-grey"></text>
@@ -87,7 +79,7 @@
       <view class="action pic-btn" bind:tap="chooseImage">
         <text class="cuIcon-pic text-grey"></text>
       </view>
-      <textarea name="chatText" class="input-text" bindlinechange="inputLineChanged" value="{{inputText}}"
+      <textarea name="chatText" class="input-text" disable-default-padding="{{true}}" bindlinechange="inputLineChanged" value="{{inputText}}"
         style="height:{{inputHeight}}px" bindkeyboardheightchange="keyboardHeightChanged" adjust-position="{{false}}" bindfocus="keyboardHeightChanged"
         placeholder="输入文本" auto-focus="{{true}}" cursor-spacing="{{15}}" hold-keyboard="{{true}}" maxlength="{{500}}"
         bindconfirm="inputConfirmed" confirm-hold="{{true}}" confirm-type="{{'send'}}" show-confirm-bar="{{false}}">
@@ -95,23 +87,3 @@
     </view>
   </view>
 </form>
-
-<view wx:if="{{noteModalOpened}}" class="cu-modal show">
-  <view class="cu-dialog">
-    <view class="cu-bar bg-white justify-end">
-      <view class="content text-bold">编辑备注</view>
-      <view class="action" bindtap="hideNoteModal">
-        <text class="cuIcon-close text-red"></text>
-      </view>
-    </view>
-    <view class="padding-xl cu-form-group">
-      <textarea class="my-note-input" auto-focus="{{true}}" placeholder="输入备注" auto-height="{{true}}" model:value="{{noteText}}" maxlength="{{1000}}"></textarea>
-    </view>
-    <view class="cu-bar bg-white justify-end">
-      <view class="action">
-        <button class="cu-btn line-black text-green" bindtap="hideNoteModal">取消</button>
-        <button class="cu-btn bg-green margin-left" bindtap="updateNote">确定</button>
-      </view>
-    </view>
-  </view>
-</view>

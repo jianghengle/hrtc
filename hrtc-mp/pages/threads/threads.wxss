@@ -32,10 +32,18 @@
   width: 100%;
 }
 
+.history-order-title-event {
+  margin-right: 10px;
+}
+
 .history-order-details {
   display: flex;
   flex-direction: row;
   width: 100%;
+}
+
+.history-order-details-time {
+  margin-right: 10px;
 }
 
 .history-order-label {

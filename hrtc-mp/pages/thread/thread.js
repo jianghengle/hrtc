@@ -28,9 +28,6 @@ Page({
     recording: false,
     chatPuller: null,
     keyboardHeight: 0,
-    showMoreInputs: false,
-    noteModalOpened: false,
-    noteText: '',
   },
 
   /**
@@ -70,7 +67,6 @@ Page({
           chats: chats,
           chatCount: chatCount,
           chatImageKeys: chatImageKeys,
-          noteText: thread.note,
         })
         that.scrollToBottom()
         that.startPullingChats()
@@ -357,27 +353,6 @@ Page({
         that.getImages()
       }
     })
-  },
-
-  toggleMoreInputs () {
-    var newShowMoreInputs = !this.data.showMoreInputs
-    this.setData({showMoreInputs: newShowMoreInputs})
-  },
-
-  openNoteModal () {
-    if (this.data.isOwner) {
-      this.setData({noteModalOpened: true})
-    }
-  },
-
-  hideNoteModal () {
-    this.setData({noteModalOpened: false})
-  },
-
-  updateNote () {
-    var data = {threadId: this.data.threadId, note: this.data.noteText}
-    httpPost('/thread/update-note', data, app)
-    this.setData({noteModalOpened: false})
   },
 
   /**

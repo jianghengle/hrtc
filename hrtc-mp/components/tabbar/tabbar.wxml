@@ -1,6 +1,6 @@
 <!--components/tabbar/tabbar.wxml-->
 <view class="cu-bar tabbar bg-black shadow foot foot-bg">
-  <view wx:for="{{list}}" wx:key="index" class="action" data-path="{{item.pagePath}}" data-index="{{index}}" bindtap="switchTab">
+  <view wx:for="{{list}}" wx:key="index" class="action" data-path="{{item.pagePath}}" data-index="{{index}}" bindtap="switchTab" wx:if="{{!item.hidden}}">
     <view class='cuIcon-cu-image'>
       <view class="cu-tag badge" wx:if="{{item.tag}}">{{item.tag}}</view>
       <image src="{{selected==index ? item.selectedIconPath : item.iconPath}}"></image>

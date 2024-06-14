@@ -7,7 +7,7 @@
   <view>
     <view class="cu-bar bg-white solid-bottom card-bg">
       <view class="action">
-        <text class="cuIcon-title text-yellow">
+        <text class="cuIcon-title text-blue">
         </text>
         <text class="text-cut text-main">{{event.title}}</text>
       </view>
@@ -121,9 +121,9 @@
   </view>
 
   <view>
-    <view class="cu-form-group align-start margin-top card-bg">
-      <view class="title text-grey">备注</view>
-      <textarea wx:if="{{isOwner}}" class="text-gray my-textarea" auto-height="{{true}}" model:value="{{noteText}}" maxlength="{{1000}}" bindblur="updateNote"></textarea>
+    <view class="cu-form-group align-start margin-top card-bg my-note-section">
+      <view class="title text-grey">标记</view>
+      <textarea wx:if="{{isOwner}}" class="text-gray" disable-default-padding="{{true}}" auto-height="{{true}}" model:value="{{noteText}}" maxlength="{{1000}}" bindblur="updateNote"></textarea>
       <view wx:if="{{!isOwner}}" class="title text-gray my-note-text">{{noteText}}</view>
     </view>
   </view>
@@ -131,9 +131,9 @@
   <view wx:if="{{historyOrders.length}}">
     <view class="cu-bar bg-white solid-bottom margin-top card-bg">
       <view class="action">
-        <text class="cuIcon-title text-grey">
+        <text class="cuIcon-title text-gray">
         </text>
-        <text class="text-cut text-grey">历史订单: {{historyOrdersCount}}</text>
+        <text class="text-cut text-gray">历史订单: {{historyOrdersCount}}</text>
       </view>
       <view class="action" bindtap="toggleHistory">
         <text class="{{'cuIcon-' + (historyOpen ? 'fold' : 'unfold') + ' text-blue'}}"></text>
@@ -149,11 +149,11 @@
     </view>
   </view>
 
-  <view>
+  <view wx:if="{{!user.isolated}}">
     <view class="cu-bar bg-white solid-bottom margin-top card-bg">
       <view class="action">
         <text class="cuIcon-title text-orange"></text>
-        <text class="text-gray">私信</text>
+        <text class="text-gray">对话</text>
       </view>
     </view>
 

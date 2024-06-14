@@ -8,8 +8,8 @@
 </view>
 
 <view class="cu-form-group dark-bg align-start border-top-gray">
-  <view class="title text-grey">描述</view>
-  <textarea class="text-main my-textarea" auto-height="{{true}}" model:value="{{description}}" maxlength="{{1000}}"></textarea>
+  <view class="title text-grey">简述</view>
+  <textarea class="text-main" disable-default-padding="{{true}}" auto-height="{{true}}" model:value="{{description}}" maxlength="{{1000}}" placeholder="（选填）"></textarea>
 </view>
 
 <view class="cu-form-group dark-bg border-top-gray">

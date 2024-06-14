@@ -37,6 +37,7 @@ Component({
         selectedIconPath: "/images/tabbar/component_cur.png",
         text: "订单",
         tag: 0,
+        hidden: true,
       },
       {
         pagePath: "/pages/me/me",
@@ -90,6 +91,11 @@ Component({
       })
       var that = this
       waitForUser(app, function(){
+        if (!app.globalData.user.isolated) {
+          that.setData({
+            'list[2].hidden': false,
+          })
+        }
         that.checkThreads()
         if (!that.data.threadsChecker) {
           var threadsChecker = setInterval(() => {

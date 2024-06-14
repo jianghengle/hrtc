@@ -30,7 +30,7 @@ class UserModel(Model):
     TableName = 'HrtcUsers'
     TokenGSI = ('tokenGSI', 'token')
     OpenidGSI = ('openidGSI', 'openid')
-    Fields = ['id', 'openid', 'nickname', 'avatar', 'location', 'token', 'createdAt', 'updatedAt', 'lastLoginAt']
+    Fields = ['id', 'openid', 'nickname', 'avatar', 'location', 'token', 'createdAt', 'updatedAt', 'lastLoginAt', 'isolated']
 
     def get_info_data(self):
         avatarUrl = self.avatar.get('url', '')
@@ -42,7 +42,8 @@ class UserModel(Model):
             'avatar': self.avatar,
             'avatarUrl': avatarUrl,
             'location': self.location,
-            'nicknameNotSet': self.nickname == DEFAULT_NICKNAME 
+            'nicknameNotSet': self.nickname == DEFAULT_NICKNAME,
+            'isolated': self.isolated
         }
     
     def update_user(self, data):
@@ -95,6 +96,7 @@ class UserModel(Model):
             'createdAt': timestamp,
             'updatedAt': timestamp,
             'lastLoginAt': timestamp,
+            'isolated': False,
         }
         dynamo_service.create_item(table, data, 'id')
         item = dynamo_service.get_item(table, 'id', id)

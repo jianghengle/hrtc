@@ -97,13 +97,18 @@ Page({
     if (!t.orderedItems) {
       t.orderedItems = []
       t.orderedItemsQuantity = 0
+      t.orderedItemsPrice = 0
     } else {
       var orderedItemsQuantity = 0
+      var orderedItemsPrice = 0
       t.orderedItems.forEach(i => {
         i.priceLabel = formatPrice(i.price)
         orderedItemsQuantity += i.quantity
+        orderedItemsPrice += (parseFloat(i.price) * i.quantity)
       })
       t.orderedItemsQuantity = orderedItemsQuantity
+      t.orderedItemsPrice = orderedItemsPrice
+      t.orderedItemsPriceLabel = formatPrice(orderedItemsPrice)
     }
     var orderedItemMap = {}
     if (t.orderedItems) {
@@ -172,6 +177,14 @@ Page({
     return quantity
   },
 
+  computeTotalOrdersPrice(threads) {
+    var price = 0
+    threads.forEach(t => {
+      price += t.orderedItemsPrice
+    })
+    return price
+  },
+
   collectHistoryData (threads) {
     var historyOrdersCount = 0
     var historyOrders = []
@@ -181,6 +194,7 @@ Page({
           var items = order.items.map(this.makeOrderedItemData)
           order.items = items
           order.totalPrice = this.computeTotalOrderPrice(items)
+          order.timestamp = this.computeHistoryOrderTimestamp(items)
           order.timeLabel = formatTimeLong(order.timestamp)
           order.userId = thread.userId
           order.eventOwnerId = thread.eventOwnerId
@@ -212,6 +226,14 @@ Page({
     return {value: sum, label: formatPrice(sum)}
   },
 
+  computeHistoryOrderTimestamp (orderedItems) {
+    var timestamp = 0
+    orderedItems.forEach(i => {
+      timestamp = Math.max(timestamp, i.timestamp)
+    })
+    return timestamp
+  },
+
   toggleHistory () {
     this.setData({historyOpen: !this.data.historyOpen})
   },
@@ -240,12 +262,15 @@ Page({
       var userThreadMap = that.makeUserThreadMap(threads)
       var itemOrdersMap = that.makeItemOrdersMap(threads)
       var totalOrdersQuantity = that.computeTotalOrdersQuantity(threads)
+      var totalOrdersPrice = that.computeTotalOrdersPrice(threads)
       that.setData({
         eventThreads: threads,
         userThread: userThread,
         userThreadMap: userThreadMap,
         itemOrdersMap: itemOrdersMap,
         totalOrdersQuantity: totalOrdersQuantity,
+        totalOrdersPrice: totalOrdersPrice,
+        totalOrdersPriceLabel: formatPrice(totalOrdersPrice),
       })
     }).catch(err => {
       console.log('get event threads failed', err)

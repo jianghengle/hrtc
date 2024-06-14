@@ -39,6 +39,7 @@ Page({
     var orderedItems = app.globalData.currentThread.orderedItems.map(this.makeOrderedItemData)
     var totalOrderPrice = this.computeTotalOrderPrice(orderedItems) 
     this.setData({
+      user: app.globalData.user,
       event: JSON.parse(JSON.stringify(app.globalData.currentEvent)),
       isOwner: app.globalData.currentEvent.ownerId == app.globalData.user.id,
       userMap: JSON.parse(JSON.stringify(app.globalData.userMap)),
@@ -55,6 +56,14 @@ Page({
       sum += i.totalPriceValue
     })
     return {value: sum, label: formatPrice(sum)}
+  },
+
+  computeHistoryOrderTimestamp (orderedItems) {
+    var timestamp = 0
+    orderedItems.forEach(i => {
+      timestamp = Math.max(timestamp, i.timestamp)
+    })
+    return timestamp
   },
 
   makeOrderedItemData (item) {
@@ -235,12 +244,14 @@ Page({
         var items = order.items.map(this.makeOrderedItemData)
         order.items = items
         order.totalPrice = this.computeTotalOrderPrice(items)
+        order.timestamp = this.computeHistoryOrderTimestamp(items)
         order.timeLabel = formatTimeLong(order.timestamp)
         order.userId = thread.userId
         order.eventOwnerId = thread.eventOwnerId
         historyOrders.unshift(order)
       }
     }
+    historyOrders.sort((a, b) => b.timestamp - a.timestamp)
     this.setData({
       historyOrdersCount: historyOrdersCount,
       historyOrders: historyOrders,

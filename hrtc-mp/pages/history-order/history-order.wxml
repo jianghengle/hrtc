@@ -54,7 +54,7 @@
     </view>
 
     <view class="cu-form-group align-start margin-top card-bg my-note-section">
-      <view class="title text-grey">备注</view>
+      <view class="title text-grey">标记</view>
       <view class="title text-gray my-note-text">{{historyOrder.note}}</view>
     </view>
   </view>

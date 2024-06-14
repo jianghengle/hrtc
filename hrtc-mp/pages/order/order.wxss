@@ -62,7 +62,7 @@
 
 .plus-minus-text {
   position: relative;
-  top: -2px;
+  top: -1px;
 }
 
 .order-quantity-value {
@@ -138,8 +138,8 @@
   max-height: 25px;
 }
 
-.my-textarea {
-  margin-top: 8px!important;
+.my-note-section {
+  padding-left: 20px!important;
 }
 
 .my-note-text {

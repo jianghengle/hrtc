@@ -44,7 +44,7 @@
 }
 
 .input-text {
-  padding-top: 20px;
+  padding-top: 25px;
   color: #d8d8d8!important;
 }
 
